@@ -5,18 +5,20 @@
  */
 package Modelo;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
  *
  * @author alumnop
  */
-public class Corredor implements Comparable<Corredor>{
+public class Corredor implements Comparable<Corredor>,Comparator<Corredor>{
 
     private int telef;
     private String Nombre;
     private final String DNI;
     private Date fechaNac;
+    
 
     public Corredor(String DNI) {
         this.DNI = DNI;
@@ -61,14 +63,16 @@ public class Corredor implements Comparable<Corredor>{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        
-        return DNI.equals(obj);
+    public String toString() {
+        return "Corredor{" + "telef=" + telef + ", Nombre=" + Nombre + ", DNI=" + DNI + ", fechaNac=" + fechaNac + '}';
     }
 
     @Override
-    public String toString() {
-        return "Corredor{" + "telef=" + telef + ", Nombre=" + Nombre + ", DNI=" + DNI + ", fechaNac=" + fechaNac + '}';
+    public int compare(Corredor o1, Corredor o2) {
+        if(o1==o2){
+            return 0;
+        }
+       return o1.DNI.compareTo(o2.DNI);
     }
     
     
