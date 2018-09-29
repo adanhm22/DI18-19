@@ -20,10 +20,12 @@ public class Menu {
         System.out.println("1- Dar de alta");
         System.out.println("2- Modificar corredor");
         System.out.println("3- Borrar corredor");
+        System.out.println("4- mostrar corredores");
+        System.out.println("5- ordenar por fecha de nacimiento");
         System.out.println("0- Salir \n");
         
         opcion = Integer.parseInt(teclado.nextLine());
-        if(opcion>3||opcion<0){
+        if(opcion>5||opcion<0){
             System.out.println("Has introducido un valor no valido\n");
             return -1;
         }

@@ -7,6 +7,8 @@ package Controladora;
 
 import Vista.Menu;
 import Vista.ObtenerDatos;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,7 +34,13 @@ public class Controladora {
             switch (opcion) {
 
                 case 1:
+            {
+                try {
                     this.darAlta();
+                } catch (Exception ex) {
+                    Logger.getLogger(Controladora.class.getName()).log(Level.INFO, null, ex);
+                }
+            }
                     break;
                 case 2:
                     this.modificarCorredor();
@@ -40,12 +48,18 @@ public class Controladora {
                 case 3:
                     this.borrarCorredor();
                     break;
+                case 4:
+                    this.mostrarCorredores();
+                    break;
+                case 5:
+                    this.ordenarPorFecha();
+                    break;
             }
         } while (opcion != 0);
 
     }
 
-    private void darAlta() {
+    private void darAlta() throws Exception {
        String[] datos = od.datosNuevoUsuario();
        cc.nuevoCorredor(datos);
     }
@@ -58,6 +72,15 @@ public class Controladora {
     private void borrarCorredor() {
         String dni = od.obtenerDni();
         cc.borrarCorredor(dni);
+    }
+
+    private void mostrarCorredores() {
+        od.listaCorredores(cc.getCorredores());
+    }
+
+    private void ordenarPorFecha() {
+        cc.ordenar();
+        this.mostrarCorredores();
     }
 
 }

@@ -9,6 +9,7 @@ import Controladora.ControladorCorredores;
 import Modelo.Corredor;
 import Modelo.Utiles;
 import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -111,57 +112,15 @@ public class ObtenerDatos {
         datos[0] = Utiles.teclado.nextLine();
         System.out.println("Introduce el nombre");
         datos[1] = Utiles.teclado.nextLine();
-        String eleccion = "";
-        boolean salida = false;
-        do {
-            System.out.println("\u00bfQuieres a\u00f1adir la fecha de nacimiento?");
-            eleccion = Utiles.teclado.nextLine();
-            if (!eleccion.toLowerCase().equals("si")) {
-                if (!eleccion.toLowerCase().equals("no")) {
-                    System.out.println("valor introducido incorrecto, solo est\u00e1n permitidos si y no");
-                } else {
-                    salida = true;
-                }
-            } else if (!eleccion.toLowerCase().equals("no")) {
-                if (!eleccion.toLowerCase().equals("si")) {
-                    System.out.println("valor introducido incorrecto, solo est\u00e1n permitidos si y no");
-                } else {
-                    salida = true;
-                }
-            }
-        } while (!salida);
-        if (eleccion.toLowerCase().equals("si")) {
-            eleccion = "";
-            salida = false;
-            System.out.println("introduce el a\u00f1o de nacimiento");
-            int anio = Integer.parseInt(Utiles.teclado.nextLine());
-            System.out.println("introduce el numero del mes");
-            int mes = Integer.parseInt(Utiles.teclado.nextLine());
-            System.out.println("introduce el dia de nacimiento");
-            int dia = Integer.parseInt(Utiles.teclado.nextLine());
-            datos[2] = dia + "/" + mes + "/" + anio;
-        }
-        do {
-            System.out.println("\u00bfQuieres a\u00f1adir el numero de telefono?");
-            eleccion = Utiles.teclado.nextLine();
-            if (!eleccion.toLowerCase().equals("si")) {
-                if (!eleccion.toLowerCase().equals("no")) {
-                    System.out.println("valor introducido incorrecto, solo est\u00e1n permitidos si y no");
-                } else {
-                    salida = true;
-                }
-            } else if (!eleccion.toLowerCase().equals("no")) {
-                if (!eleccion.toLowerCase().equals("si")) {
-                    System.out.println("valor introducido incorrecto, solo est\u00e1n permitidos si y no");
-                } else {
-                    salida = true;
-                }
-            }
-        } while (!salida);
-        if (eleccion.toLowerCase().equals("si")) {
-            System.out.println("Introduce el numero de telefono");
-            datos[3] = Utiles.teclado.nextLine();
-        }
+        System.out.println("introduce el a\u00f1o de nacimiento");
+        int anio = Integer.parseInt(Utiles.teclado.nextLine());
+        System.out.println("introduce el numero del mes");
+        int mes = Integer.parseInt(Utiles.teclado.nextLine());
+        System.out.println("introduce el dia de nacimiento");
+        int dia = Integer.parseInt(Utiles.teclado.nextLine());
+        datos[2] = dia + "/" + mes + "/" + anio;
+        System.out.println("Introduce el numero de telefono");
+        datos[3] = Utiles.teclado.nextLine();
         return datos;
     }
 
@@ -171,5 +130,11 @@ public class ObtenerDatos {
         dni = Utiles.teclado.nextLine();
         return dni;
     }
-    
+
+    public void listaCorredores(List<Corredor> corredores) {
+        for (Corredor corredore : corredores) {
+            System.out.println(corredore);
+        }
+    }
+
 }
