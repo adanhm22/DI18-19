@@ -15,7 +15,7 @@ import java.util.Date;
 public class Corredor implements Comparable<Corredor>,Comparator<Corredor>{
 
     private int telef;
-    private String Nombre;
+    private String Nombre,Direccion;
     private final String DNI;
     private Date fechaNac;
     
@@ -57,6 +57,15 @@ public class Corredor implements Comparable<Corredor>,Comparator<Corredor>{
         return DNI;
     }
 
+    public String getDireccion() {
+        return Direccion;
+    }
+
+    public void setDireccion(String Direccion) {
+        this.Direccion = Direccion;
+    }
+    
+
     @Override
     public int compareTo(Corredor o) {
         return o.DNI.compareTo(this.DNI);
@@ -64,8 +73,10 @@ public class Corredor implements Comparable<Corredor>,Comparator<Corredor>{
 
     @Override
     public String toString() {
-        return "Corredor{" + "telef=" + telef + ", Nombre=" + Nombre + ", DNI=" + DNI + ", fechaNac=" + fechaNac + '}';
+        return "Corredor{" + "telef=" + telef + ", Nombre=" + Nombre + ", Direccion=" + Direccion + ", DNI=" + DNI + ", fechaNac=" + fechaNac + '}';
     }
+
+    
 
     @Override
     public int compare(Corredor o1, Corredor o2) {

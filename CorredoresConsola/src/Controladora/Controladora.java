@@ -5,10 +5,10 @@
  */
 package Controladora;
 
+import Modelo.CorredorException;
 import Vista.Menu;
 import Vista.ObtenerDatos;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
 
 /**
  *
@@ -16,16 +16,18 @@ import java.util.logging.Logger;
  */
 public class Controladora {
 
-    
     private ControladorCorredores cc;
     private ObtenerDatos od;
+    private ControladoraFicheros cf;
 
     public Controladora() {
         this.cc = new ControladorCorredores();
         this.od = new ObtenerDatos();
+        this.cf = new ControladoraFicheros();
     }
 
-    public void iniciar(){
+    public void iniciar() throws IOException {
+        cc.getCorredores().addAll(cf.leerCorredores());
         int opcion;
         Menu menu = new Menu();
 
@@ -34,13 +36,7 @@ public class Controladora {
             switch (opcion) {
 
                 case 1:
-            {
-                try {
                     this.darAlta();
-                } catch (Exception ex) {
-                    Logger.getLogger(Controladora.class.getName()).log(Level.INFO, null, ex);
-                }
-            }
                     break;
                 case 2:
                     this.modificarCorredor();
@@ -56,22 +52,38 @@ public class Controladora {
                     break;
             }
         } while (opcion != 0);
+        cf.grabarCorredores(cc.getCorredores());
 
     }
 
-    private void darAlta() throws Exception {
-       String[] datos = od.datosNuevoUsuario();
-       cc.nuevoCorredor(datos);
+    private void darAlta() {
+        String[] datos = od.datosNuevoUsuario();
+        try {
+            cc.nuevoCorredor(datos);
+        } catch (Exception ex) {
+            System.out.println("Ha ocurrido un problema, " + ex.getMessage());
+        }
     }
 
     private void modificarCorredor() {
         String[] datos = od.datosModificarUsuario(cc);
-        cc.modificarCorredor(datos);
+        try {
+            cc.modificarCorredor(datos);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ha ocurrido un problema, " + e.getMessage());
+        } catch (CorredorException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
     }
 
     private void borrarCorredor() {
         String dni = od.obtenerDni();
-        cc.borrarCorredor(dni);
+        try {
+            cc.borrarCorredor(dni);
+        } catch (CorredorException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     private void mostrarCorredores() {

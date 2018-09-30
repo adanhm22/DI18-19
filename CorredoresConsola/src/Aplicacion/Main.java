@@ -6,6 +6,9 @@
 package Aplicacion;
 
 import Controladora.Controladora;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +22,11 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         Controladora con = new Controladora();
-        con.iniciar();
+        try {
+            con.iniciar();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

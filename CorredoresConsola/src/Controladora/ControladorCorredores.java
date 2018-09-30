@@ -6,6 +6,7 @@
 package Controladora;
 
 import Modelo.Corredor;
+import Modelo.CorredorException;
 import static Modelo.Utiles.sdf;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -32,20 +33,23 @@ public class ControladorCorredores {
      * @param datos
      */
     public void nuevoCorredor(String[] datos) throws Exception {
-        if (datos.length != 4) {
-            throw new IllegalArgumentException("El parametro de entrada debe ser un array de 4");
+        if(datos==null){
+            throw new IllegalArgumentException("El parametro de entrada debe estar inicializado");
+        }
+        if (datos.length != 5) {
+            throw new IllegalArgumentException("El parametro de entrada debe ser un array de 5");
         }
         
         Corredor c = new Corredor(datos[1], datos[0]);
         if (Collections.binarySearch(corredores, c) >= 0) {
-            throw new Exception("ese corredor ya existe");
+            throw new CorredorException("ese corredor ya existe");
             //throw
         }
         if (datos[2] != null) {
             try {
                 c.setFechaNac(sdf.parse(datos[2]));
             } catch (ParseException ex) {
-                //throw
+                c.setFechaNac(new Date());
             }
         } else {
             c.setFechaNac(new Date());
@@ -53,6 +57,9 @@ public class ControladorCorredores {
 
         if (datos[3] != null) {
             c.setTelef(Integer.parseInt(datos[3]));
+        }
+        if(datos[4] !=null){
+            c.setDireccion(datos[4]);
         }
 
         this.corredores.add(c);
@@ -63,9 +70,12 @@ public class ControladorCorredores {
      *
      * @param datos
      */
-    public void modificarCorredor(String[] datos) {
-        if (datos.length != 4) {
-            throw new IllegalArgumentException("El parametro de entrada debe ser un array de 4");
+    public void modificarCorredor(String[] datos) throws CorredorException {
+        if(datos==null){
+            throw new IllegalArgumentException("El parametro de entrada debe estar inicializado");
+        }
+        if (datos.length != 5) {
+            throw new IllegalArgumentException("El parametro de entrada debe ser un array de 5");
         }
 
         Corredor c = new Corredor(datos[0]);
@@ -86,8 +96,12 @@ public class ControladorCorredores {
             if (datos[3] != null) {
                 c.setTelef(Integer.parseInt(datos[3]));
             }
+              if(datos[4] !=null){
+            c.setDireccion(datos[4]);
+        }
 
         } else {
+            throw new CorredorException("El corredor no existe");
         }
         this.getCorredores().remove(indice);
         this.getCorredores().add(c);
@@ -95,14 +109,13 @@ public class ControladorCorredores {
     
     
 
-    public int borrarCorredor(String dni){
+    public void borrarCorredor(String dni) throws CorredorException{
         Corredor c = new Corredor (dni);
         int zona = Collections.binarySearch(getCorredores(), c);
         if(zona<0){
-            return 1;
+            throw new CorredorException("El corredor no existe");
         }else{
             this.getCorredores().remove(zona);
-            return 0;
         }
     }
 
