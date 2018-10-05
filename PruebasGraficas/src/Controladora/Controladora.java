@@ -7,9 +7,10 @@ package Controladora;
 
 import Modelo.Corredor;
 import Modelo.CorredorException;
+import Modelo.Utiles;
 import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -65,12 +66,19 @@ public class Controladora {
         return this.cc.getCorredores();
     }
 
-    public void rellenarLista(JList lista) {
-        DefaultListModel dlm = new DefaultListModel();
-        for (Corredor corredor: this.cc.getCorredores()){
-            dlm.addElement(corredor);
+    public void rellenarLista(JTable lista) {
+       String[] columnas = {"DNI","Nombre","Fecha nac","telf","Direccion"};
+       DefaultTableModel dtm = new DefaultTableModel(columnas,0);
+        for (Corredor corredore : cc.getCorredores()) {
+            String[] campos = new String[5];
+            campos[0]=corredore.getDNI();
+            campos[1]=corredore.getNombre();
+            campos[2]=Utiles.sdf.format(corredore.getFechaNac());
+            campos[3]=String.valueOf(corredore.getTelef());
+            campos[4]=corredore.getDireccion();
+            dtm.addRow(campos);
         }
-        lista.setModel(dlm);
+        lista.setModel(dtm);
     }
 
 }

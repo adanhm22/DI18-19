@@ -7,6 +7,10 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Modelo.CorredorException;
+import Modelo.Utiles;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -181,15 +185,16 @@ public class AltaUsuario extends javax.swing.JDialog {
         String[] datos = new String[5];
         datos[0] = this.dniTexto.getText();
         datos[1]= this.nombreTexto.getText();
-        datos[2] =""+this.fecha.getValue();
+        Date fechaNac = (Date) this.fecha.getValue();
+        datos[2] =Utiles.sdf.format(fechaNac);
         datos[3] = this.telefonoTexto.getText();
         datos[4] = this.direccionTexto.getText();
         
         try {
             con.darAlta(datos);
-            exito.setText("el corredor con dni '"+datos[0]+"' ha sido añadido");
+            JOptionPane.showMessageDialog(this, "el corredor con dni '"+datos[0]+"' ha sido añadido", "Corredor añadido", JOptionPane.INFORMATION_MESSAGE);
         } catch (CorredorException | IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonValidacionActionPerformed
 
@@ -203,6 +208,7 @@ public class AltaUsuario extends javax.swing.JDialog {
         this.dniTexto.setText("");
         this.nombreTexto.setText("");
         this.telefonoTexto.setText("");
+        this.fecha.setValue(new Date());
     }//GEN-LAST:event_botonLimpiarActionPerformed
 
     /**
