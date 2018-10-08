@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
+import Modelo.Carrera;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +17,15 @@ import javax.swing.JOptionPane;
  */
 public class NuevaCarrera extends javax.swing.JDialog {
 
+    Controladora con;
+
     /**
      * Creates new form NuevaCarrera
      */
-    public NuevaCarrera(java.awt.Frame parent, boolean modal) {
+    public NuevaCarrera(java.awt.Frame parent, boolean modal, Controladora con) {
         super(parent, modal);
         initComponents();
+        this.con = con;
     }
 
     /**
@@ -157,6 +163,8 @@ public class NuevaCarrera extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        List lista = con.getListaCarrera();
+        lista.add(new Carrera(this.NombreTexto.getText(), this.LugarTexto.getText(), (Date) this.Fecha.getValue()));
         JOptionPane.showMessageDialog(this, "La carrera ha sido creada", "Carrera creada", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -174,7 +182,7 @@ public class NuevaCarrera extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner Fecha;
     private javax.swing.JTextField LugarTexto;
