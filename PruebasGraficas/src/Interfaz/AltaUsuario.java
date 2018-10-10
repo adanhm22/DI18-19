@@ -6,6 +6,7 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Modelo.Corredor;
 import Modelo.CorredorException;
 import Modelo.Utiles;
 import java.util.Date;
@@ -19,13 +20,26 @@ import javax.swing.JPanel;
 public class AltaUsuario extends javax.swing.JDialog {
 
     private Controladora con;
+    private Corredor corredor;
+
     /**
      * Creates new form AltaUsuario
      */
-    public AltaUsuario(java.awt.Frame parent, boolean modal,Controladora con) {
+    public AltaUsuario(java.awt.Frame parent, boolean modal, Controladora con) {
         super(parent, modal);
         initComponents();
-        this.con= con;
+        this.con = con;
+    }
+
+    public AltaUsuario(java.awt.Dialog parent, boolean modal, Corredor corredor) {
+        super(parent, modal);
+        initComponents();
+        this.corredor = corredor;
+        this.dniTexto.setText(corredor.getDNI());
+        this.nombreTexto.setText(this.corredor.getNombre());
+        this.direccionTexto.setText(this.corredor.getDireccion());
+        this.fecha.setValue(this.corredor.getFechaNac());
+        this.telefonoTexto.setText(String.valueOf(this.corredor.getTelef()));
     }
 
     /**
@@ -38,7 +52,6 @@ public class AltaUsuario extends javax.swing.JDialog {
     private void initComponents() {
 
         botonValidacion = new javax.swing.JButton();
-        etiquetaPrincipal = new javax.swing.JLabel();
         panelPrincipal = new javax.swing.JPanel();
         telefonoTexto = new javax.swing.JTextField();
         dniTexto = new javax.swing.JTextField();
@@ -61,8 +74,6 @@ public class AltaUsuario extends javax.swing.JDialog {
                 botonValidacionActionPerformed(evt);
             }
         });
-
-        etiquetaPrincipal.setText("Dar de alta");
 
         etiquetaDni.setText("DNI");
 
@@ -105,7 +116,7 @@ public class AltaUsuario extends javax.swing.JDialog {
                             .addComponent(nombreTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(telefonoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(direccionTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         panelPrincipalLayout.setVerticalGroup(
             panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,34 +158,29 @@ public class AltaUsuario extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(exito))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
+                        .addGap(103, 103, 103)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonLimpiar)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(botonValidacion)
-                                .addComponent(etiquetaPrincipal))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(exito)))
+                            .addComponent(botonValidacion)
+                            .addComponent(botonLimpiar))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(etiquetaPrincipal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonLimpiar)
                 .addGap(18, 18, 18)
                 .addComponent(botonValidacion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exito)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addComponent(exito))
         );
 
         pack();
@@ -182,19 +188,39 @@ public class AltaUsuario extends javax.swing.JDialog {
 
     private void botonValidacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonValidacionActionPerformed
         // TODO add your handling code here:
-        String[] datos = new String[5];
-        datos[0] = this.dniTexto.getText();
-        datos[1]= this.nombreTexto.getText();
-        Date fechaNac = (Date) this.fecha.getValue();
-        datos[2] =Utiles.sdf.format(fechaNac);
-        datos[3] = this.telefonoTexto.getText();
-        datos[4] = this.direccionTexto.getText();
-        
-        try {
-            con.darAlta(datos);
-            JOptionPane.showMessageDialog(this, "el corredor con dni '"+datos[0]+"' ha sido añadido", "Corredor añadido", JOptionPane.INFORMATION_MESSAGE);
-        } catch (CorredorException | IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+        if (!this.dniTexto.getText().equals("")) {
+            if (corredor != null) {
+                this.corredor.setNombre(this.nombreTexto.getText());
+                this.corredor.setDireccion(this.direccionTexto.getText());
+                try {
+                    this.corredor.setTelef(Integer.parseInt(this.telefonoTexto.getText()));
+                } catch (NumberFormatException n) {
+                    this.corredor.setTelef(0);
+                }
+                this.corredor.setFechaNac((Date) this.fecha.getValue());
+                this.corredor.setDNI(this.dniTexto.getText());
+                JOptionPane.showMessageDialog(this, "se ha modificado al corredor", "Corredor modificado", JOptionPane.INFORMATION_MESSAGE);
+                
+                
+            } else {
+                String[] datos = new String[5];
+                datos[0] = this.dniTexto.getText();
+                datos[1] = this.nombreTexto.getText();
+                Date fechaNac = (Date) this.fecha.getValue();
+                datos[2] = Utiles.sdf.format(fechaNac);
+                datos[3] = this.telefonoTexto.getText();
+                datos[4] = this.direccionTexto.getText();
+
+                try {
+                    con.darAlta(datos);
+                    JOptionPane.showMessageDialog(this, "el corredor con dni '" + datos[0] + "' ha sido añadido", "Corredor añadido", JOptionPane.INFORMATION_MESSAGE);
+                } catch (CorredorException | IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "el dni no debe estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonValidacionActionPerformed
 
@@ -214,7 +240,7 @@ public class AltaUsuario extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonLimpiar;
     private javax.swing.JButton botonValidacion;
@@ -222,7 +248,6 @@ public class AltaUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField dniTexto;
     private javax.swing.JLabel etiquetaDni;
     private javax.swing.JLabel etiquetaNombre;
-    private javax.swing.JLabel etiquetaPrincipal;
     private javax.swing.JLabel exito;
     private javax.swing.JSpinner fecha;
     private javax.swing.JLabel jLabel1;
