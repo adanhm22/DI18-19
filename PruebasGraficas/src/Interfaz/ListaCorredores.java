@@ -7,6 +7,7 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Modelo.Corredor;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class ListaCorredores extends javax.swing.JDialog {
 
-    Controladora con;
+    private Controladora con;
 
     /**
      * Creates new form ListaCarreras
@@ -101,6 +102,7 @@ public class ListaCorredores extends javax.swing.JDialog {
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
+
         int selecionado = this.tabla.getSelectedRow();
         if (selecionado == -1) {
             JOptionPane.showMessageDialog(this, "no se ha seleccionado nada", "error", JOptionPane.ERROR_MESSAGE);
@@ -109,6 +111,8 @@ public class ListaCorredores extends javax.swing.JDialog {
             new AltaUsuario(this, true, corredor).setVisible(true);
             con.rellenarListaCorredores(tabla);
         }
+
+
     }//GEN-LAST:event_botonModificarActionPerformed
 
     /**

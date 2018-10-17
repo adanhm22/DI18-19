@@ -11,7 +11,10 @@ import Modelo.CorredorException;
 import Modelo.Utiles;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
 
 /**
  *
@@ -29,6 +32,22 @@ public class AltaUsuario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.con = con;
+        botonValidacion.setEnabled(false);
+        ValidationGroup group = validationPanel.getValidationGroup();
+        group.add(dniTexto, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        group.add(nombreTexto, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        group.add(telefonoTexto, StringValidators.REQUIRE_VALID_INTEGER, StringValidators.REQUIRE_NON_NEGATIVE_NUMBER);
+
+        validationPanel.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (validationPanel.getProblem() == null) {
+                    botonValidacion.setEnabled(true);
+                } else {
+                    botonValidacion.setEnabled(false);
+                }
+            }
+        });
     }
 
     public AltaUsuario(java.awt.Dialog parent, boolean modal, Corredor corredor) {
@@ -65,6 +84,7 @@ public class AltaUsuario extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         botonLimpiar = new javax.swing.JButton();
         exito = new javax.swing.JLabel();
+        validationPanel = new org.netbeans.validation.api.ui.swing.ValidationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -167,13 +187,17 @@ public class AltaUsuario extends javax.swing.JDialog {
                         .addGap(103, 103, 103)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botonValidacion)
-                            .addComponent(botonLimpiar))))
+                            .addComponent(botonLimpiar)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(validationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(validationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonLimpiar)
@@ -200,8 +224,7 @@ public class AltaUsuario extends javax.swing.JDialog {
                 this.corredor.setFechaNac((Date) this.fecha.getValue());
                 this.corredor.setDNI(this.dniTexto.getText());
                 JOptionPane.showMessageDialog(this, "se ha modificado al corredor", "Corredor modificado", JOptionPane.INFORMATION_MESSAGE);
-                
-                
+
             } else {
                 String[] datos = new String[5];
                 datos[0] = this.dniTexto.getText();
@@ -256,5 +279,6 @@ public class AltaUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField nombreTexto;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTextField telefonoTexto;
+    private org.netbeans.validation.api.ui.swing.ValidationPanel validationPanel;
     // End of variables declaration//GEN-END:variables
 }

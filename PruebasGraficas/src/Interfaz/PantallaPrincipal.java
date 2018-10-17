@@ -6,6 +6,7 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
@@ -143,7 +144,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void jButtonLCarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLCarrerasActionPerformed
         // TODO add your handling code here:
-        new ListaCarreras(this, true,con).setVisible(true);
+        if(con.getListaCarrera().isEmpty())
+            JOptionPane.showMessageDialog(this, "la lista está vacía","lista vacia",JOptionPane.ERROR_MESSAGE);
+        else
+            new ListaCarreras(this, true,con).setVisible(true);
     }//GEN-LAST:event_jButtonLCarrerasActionPerformed
 
     private void jButtonLCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLCorredoresActionPerformed
@@ -185,6 +189,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                Locale.setDefault(new Locale("es", "ES"));
                 new PantallaPrincipal().setVisible(true);
             }
         });

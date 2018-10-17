@@ -90,13 +90,14 @@ public class Controladora {
     }
 
     public void rellenarListaCarreras(JTable lista) {
-        String[] columnas = {"nombre", "lugar", "fecha"};
+        String[] columnas = {"nombre", "lugar", "fecha","participantes"};
         DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-        String[] campos = new String[3];
+        String[] campos = new String[4];
         for (Carrera carrera : listaCarrera) {
             campos[0] = carrera.getNombre();
             campos[1] = carrera.getDireccion();
             campos[2] = Utiles.sdf.format(carrera.getFechaCarrera());
+            campos[3] = String.valueOf(carrera.getNumeroParticipantes());
             dtm.addRow(campos);
         }
         lista.setModel(dtm);

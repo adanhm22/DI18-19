@@ -15,17 +15,17 @@ public class Carrera {
 
     private String nombre, direccion;
     private Date fechaCarrera;
+    private int numeroParticipantes;
 
     public Carrera() {
     }
 
-    public Carrera(String nombre, String direccion, Date fechaCarrera) {
+    public Carrera(String nombre, String direccion, Date fechaCarrera, int numParticipantes) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.fechaCarrera = fechaCarrera;
+        this.numeroParticipantes = numParticipantes;
     }
-    
-    
 
     public String getNombre() {
         return nombre;
@@ -49,6 +49,14 @@ public class Carrera {
 
     public void setFechaCarrera(Date fechaCarrera) {
         this.fechaCarrera = fechaCarrera;
+    }
+
+    public int getNumeroParticipantes() {
+        return numeroParticipantes;
+    }
+
+    public void setNumeroParticipantes(int numeroParticipantes) {
+        this.numeroParticipantes = numeroParticipantes;
     }
 
     @Override
