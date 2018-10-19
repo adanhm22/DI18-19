@@ -75,7 +75,10 @@ public class Corredor implements Comparable<Corredor>, Comparator<Corredor> {
 
     @Override
     public String toString() {
+        if(fechaNac!=null)
         return this.DNI + " " + this.Nombre + " " + this.Direccion + " " + this.telef + " " + Utiles.sdf.format(fechaNac);
+        else
+            return this.DNI + " " + this.Nombre + " " + this.Direccion + " " + this.telef + " " + fechaNac;
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.netbeans.validation.api.builtin.stringvalidation.Integer_no_negativo_no_requerido;
 import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
 import org.netbeans.validation.api.ui.ValidationGroup;
 
@@ -36,7 +37,7 @@ public class AltaUsuario extends javax.swing.JDialog {
         ValidationGroup group = validationPanel.getValidationGroup();
         group.add(dniTexto, StringValidators.REQUIRE_NON_EMPTY_STRING);
         group.add(nombreTexto, StringValidators.REQUIRE_NON_EMPTY_STRING);
-        group.add(telefonoTexto, StringValidators.REQUIRE_VALID_INTEGER, StringValidators.REQUIRE_NON_NEGATIVE_NUMBER);
+        group.add(telefonoTexto, new Integer_no_negativo_no_requerido());
 
         validationPanel.addChangeListener(new ChangeListener() {
             @Override
@@ -95,12 +96,17 @@ public class AltaUsuario extends javax.swing.JDialog {
             }
         });
 
+        telefonoTexto.setName("telefono"); // NOI18N
+
+        dniTexto.setName("dni"); // NOI18N
+
         etiquetaDni.setText("DNI");
 
         etiquetaNombre.setText("Nombre");
 
         fecha.setModel(new javax.swing.SpinnerDateModel());
 
+        nombreTexto.setName("nombre"); // NOI18N
         nombreTexto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nombreTextoActionPerformed(evt);
