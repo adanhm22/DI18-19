@@ -20,7 +20,7 @@ public class Carrera {
     private String nombre, direccion;
     private Date fechaCarrera;
     private int numeroParticipantes;
-    private Map<String,Corredor> corredores;
+    private HashMap<String,Corredor> corredores;
 
     public Carrera(String nombre, String direccion, Date fechaCarrera, int numParticipantes) {
         this.nombre = nombre;
@@ -67,10 +67,14 @@ public class Carrera {
     }
 
     public Corredor aniadirCorredoresDorsal(String dorsal, Corredor corredor) {
-
-        
         return this.corredores.put(dorsal, corredor);
     }
+
+    public Map<String, Corredor> getCorredores() {
+        return corredores;
+    }
+    
+    
 
     @Override
     public String toString() {

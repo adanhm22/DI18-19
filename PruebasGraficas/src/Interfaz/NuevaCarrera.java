@@ -7,8 +7,12 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Modelo.Carrera;
+import Modelo.Corredor;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +20,9 @@ import javax.swing.JOptionPane;
  * @author alumnop
  */
 public class NuevaCarrera extends javax.swing.JDialog {
-
+    
     Controladora con;
+    Map<String, Corredor> corredores;
 
     /**
      * Creates new form NuevaCarrera
@@ -26,6 +31,7 @@ public class NuevaCarrera extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.con = con;
+        this.corredores=new HashMap<String, Corredor>();
     }
 
     /**
@@ -119,7 +125,7 @@ public class NuevaCarrera extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(participantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         jButton1.setText("Crear carrera");
@@ -177,8 +183,20 @@ public class NuevaCarrera extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         List lista = con.getListaCarrera();
-        lista.add(new Carrera(this.NombreTexto.getText(), this.LugarTexto.getText(), (Date) this.Fecha.getValue(), (int) participantes.getValue()));
+        Carrera c = new Carrera(this.NombreTexto.getText(), this.LugarTexto.getText(), (Date) this.Fecha.getValue(), (int) participantes.getValue());
+        lista.add(c);
+        
         JOptionPane.showMessageDialog(this, "La carrera ha sido creada", "Carrera creada", JOptionPane.INFORMATION_MESSAGE);
+        int seleleccion = JOptionPane.showConfirmDialog(this, "¿Quieres añadir participantes a esta carrera?", "Añadir participantes", JOptionPane.YES_NO_OPTION);
+        if (seleleccion == JOptionPane.YES_OPTION) {
+            new SeleccionCorredores(this, true, con,corredores,c.getNumeroParticipantes()).setVisible(true);
+            for (String string : corredores.keySet()) {
+                c.aniadirCorredoresDorsal(string, corredores.get(string));
+            }
+        }
+        dispose();
+        
+        //lanzar pantalla de seleccion de personas con dorsal.
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void LugarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LugarTextoActionPerformed
@@ -187,6 +205,7 @@ public class NuevaCarrera extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.participantes.setValue(0);
         this.Fecha.setValue(new Date());
         this.LugarTexto.setText("");
         this.NombreTexto.setText("");

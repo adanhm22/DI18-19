@@ -11,6 +11,8 @@ import Modelo.CorredorException;
 import Modelo.Utiles;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -90,17 +92,29 @@ public class Controladora {
     }
 
     public void rellenarListaCarreras(JTable lista) {
-        String[] columnas = {"nombre", "lugar", "fecha","participantes"};
+        String[] columnas = {"nombre", "lugar", "fecha","participantes","corredores"};
         DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-        String[] campos = new String[4];
+        String[] campos = new String[5];
         for (Carrera carrera : listaCarrera) {
             campos[0] = carrera.getNombre();
             campos[1] = carrera.getDireccion();
             campos[2] = Utiles.sdf.format(carrera.getFechaCarrera());
             campos[3] = String.valueOf(carrera.getNumeroParticipantes());
+            campos[4]="";
+            for (String string : carrera.getCorredores().keySet()) {
+                campos[4]+=string+": "+carrera.conseguirCorredores(string).getNombre()+" ";
+            }
             dtm.addRow(campos);
         }
         lista.setModel(dtm);
+    }
+
+    public void rellenarListaCorredores(JList<String> lista) {
+        DefaultListModel dlm = new DefaultListModel();
+        for (Corredor corredor : cc.getCorredores()) {
+            dlm.addElement(corredor);
+        }
+        lista.setModel(dlm);
     }
 
 }

@@ -27,6 +27,7 @@ public class ListaCorredores extends javax.swing.JDialog {
         this.con = con;
         con.rellenarListaCorredores(tabla);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

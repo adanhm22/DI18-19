@@ -6,7 +6,9 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import java.awt.Image;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +26,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public PantallaPrincipal() {
         initComponents();
         con = new Controladora();
+        Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
+        setIconImage(icono);
     }
 
     /**

@@ -20,13 +20,13 @@ public class Integer_no_negativo_no_requerido extends StringValidator {
             if (!"".equals(model.trim())) {
                 int numero = Integer.parseInt(model);
                 if (numero < 0) {
-                    String mensaje = NbBundle.getMessage(Integer_no_negativo_no_requerido.class, "MENSAJE_GENERICO2", compName);
+                    String mensaje = NbBundle.getMessage(Integer_no_negativo_no_requerido.class, "NUMERO_NEGATIVO", compName);
                     prblms.add(mensaje);
                 }
             }
 
         } catch (NumberFormatException e) {
-            String mensaje = NbBundle.getMessage(Integer_no_negativo_no_requerido.class, "MENSAJE_GENERICO1", compName);
+            String mensaje = NbBundle.getMessage(Integer_no_negativo_no_requerido.class, "NO_ES_NUMERO", compName,model);
             prblms.add(mensaje);
 
         }
