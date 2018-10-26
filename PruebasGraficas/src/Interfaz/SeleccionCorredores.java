@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class SeleccionCorredores extends javax.swing.JDialog {
 
+    private int contadorPulsaciones,ultimoPulsado;
     private Controladora con;
     private Map<String, Corredor> corredores;
     private int numMaximo;
@@ -33,6 +34,8 @@ public class SeleccionCorredores extends javax.swing.JDialog {
         this.con.rellenarListaCorredores(lista);
         this.corredores = corredores;
         this.numMaximo=numMaximo;
+        this.contadorPulsaciones=0;
+        this.ultimoPulsado=-1;
     }
 
     /**
@@ -57,6 +60,11 @@ public class SeleccionCorredores extends javax.swing.JDialog {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        lista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(lista);
 
@@ -99,17 +107,46 @@ public class SeleccionCorredores extends javax.swing.JDialog {
     private void seleccionButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionButonActionPerformed
         // TODO add your handling code here:
         if (lista.getSelectedIndices().length == 0) {
+            
             JOptionPane.showMessageDialog(this, "No has seleccionado nada");
         } else if(lista.getSelectedIndices().length <= this.numMaximo) {
+            int contador=0;
             for (int selectedIndice : lista.getSelectedIndices()) {
-                corredores.put(selectedIndice+"",con.getCorredores().get(selectedIndice));
+               if (corredores.put(selectedIndice+"",con.getCorredores().get(selectedIndice)) ==null)
+                contador++;
             }
-            JOptionPane.showMessageDialog(this, "se han añadido "+lista.getSelectedIndices().length+" corredores");
+            if(contador!=0)
+                JOptionPane.showMessageDialog(this, "se han añadido "+contador+" corredores");
+            else
+                JOptionPane.showMessageDialog(this, "se ha terminado de añadir jugadores");
             dispose();
-        }else{
+        }else
             JOptionPane.showMessageDialog(this, "Has seleccionado mas corredores del maximo");
-        }
+        
     }//GEN-LAST:event_seleccionButonActionPerformed
+
+    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+        // TODO add your handling code here:
+        if(this.numMaximo>=this.corredores.size()+1){
+            if(this.contadorPulsaciones==1){
+                if(this.ultimoPulsado==this.lista.getSelectedIndex()){
+                    boolean annadir =corredores.put(lista.getSelectedIndex()+"", con.getCorredores().get(lista.getSelectedIndex()))==null;
+                    if(annadir)
+                        JOptionPane.showMessageDialog(this,"se ha añadido un jugador");
+                    this.ultimoPulsado=-1;
+                    this.contadorPulsaciones=0;
+                }else{
+                    this.contadorPulsaciones=0;
+                    this.ultimoPulsado=this.lista.getSelectedIndex();
+                }
+            }else{
+                this.contadorPulsaciones=1;
+                this.ultimoPulsado=this.lista.getSelectedIndex();
+            }
+        }else
+            JOptionPane.showMessageDialog(this, "No puedes añadir mas personas que el máximo");
+                
+    }//GEN-LAST:event_listaMouseClicked
 
     /**
      * @param args the command line arguments
