@@ -7,9 +7,18 @@ package Interfaz;
 
 import Controladora.Controladora;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Arrays;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,6 +37,33 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         con = new Controladora();
         Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
         setIconImage(icono);
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            JMenuItem ji = new JMenuItem(info.getName());
+            this.lookfeel.add(ji);
+        }
+        
+
+    }
+    
+    private void cambiarLookFeel (String name ){
+        System.out.println(name);
+        for (UIManager.LookAndFeelInfo installedLookAndFeel : UIManager.getInstalledLookAndFeels()) {
+            if(name.equals(installedLookAndFeel.getName())){
+                try {
+                    UIManager.setLookAndFeel(installedLookAndFeel.getClassName());
+                    SwingUtilities.updateComponentTreeUI(this);
+                } catch (ClassNotFoundException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (InstantiationException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (IllegalAccessException ex) {
+                    Exceptions.printStackTrace(ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+                
+            }
+        }
     }
 
     /**
@@ -46,6 +82,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jButtonLCarreras = new javax.swing.JButton();
         jButtonLCorredores = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menu = new javax.swing.JMenu();
+        lookfeel = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -83,6 +122,38 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         });
 
         jLabel3.setText("Mostrar listas");
+
+        menu.setText("Configuracion");
+        menu.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                menuMenuSelected(evt);
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+        });
+
+        lookfeel.setText("Look&Feel");
+        lookfeel.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                lookfeelItemStateChanged(evt);
+            }
+        });
+        lookfeel.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                lookfeelMenuSelected(evt);
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+        });
+        menu.add(lookfeel);
+
+        jMenuBar1.add(menu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,6 +234,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonLCorredoresActionPerformed
 
+    private void menuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuMenuSelected
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_menuMenuSelected
+
+    private void lookfeelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lookfeelItemStateChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_lookfeelItemStateChanged
+
+    private void lookfeelMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_lookfeelMenuSelected
+        // TODO add your handling code here:
+        System.out.println(evt.toString());
+    }//GEN-LAST:event_lookfeelMenuSelected
+
     /**
      * @param args the command line arguments
      */
@@ -208,5 +294,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu lookfeel;
+    private javax.swing.JMenu menu;
     // End of variables declaration//GEN-END:variables
 }
