@@ -7,14 +7,11 @@ package Interfaz;
 
 import Controladora.Controladora;
 import java.awt.Image;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,28 +34,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         con = new Controladora();
         Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
         setIconImage(icono);
+        UIManager.installLookAndFeel(new UIManager.LookAndFeelInfo("JTatoo", com.jtattoo.plaf.smart.SmartLookAndFeel.class.getName()));
         for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             JMenuItem ji = new JMenuItem(info.getName());
             this.lookfeel.add(ji);
+            ji.addActionListener((ActionEvent e) -> cambiarLookFeel(info.getName()));
         }
-        
-
     }
     
     private void cambiarLookFeel (String name ){
-        System.out.println(name);
         for (UIManager.LookAndFeelInfo installedLookAndFeel : UIManager.getInstalledLookAndFeels()) {
             if(name.equals(installedLookAndFeel.getName())){
                 try {
                     UIManager.setLookAndFeel(installedLookAndFeel.getClassName());
                     SwingUtilities.updateComponentTreeUI(this);
-                } catch (ClassNotFoundException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (InstantiationException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (IllegalAccessException ex) {
-                    Exceptions.printStackTrace(ex);
-                } catch (UnsupportedLookAndFeelException ex) {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     Exceptions.printStackTrace(ex);
                 }
                 
@@ -124,31 +114,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel3.setText("Mostrar listas");
 
         menu.setText("Configuracion");
-        menu.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                menuMenuSelected(evt);
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-        });
 
         lookfeel.setText("Look&Feel");
-        lookfeel.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                lookfeelItemStateChanged(evt);
-            }
-        });
-        lookfeel.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                lookfeelMenuSelected(evt);
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-        });
         menu.add(lookfeel);
 
         jMenuBar1.add(menu);
@@ -233,21 +200,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         new ListaCorredores(this,true,con).setVisible(true);
         }
     }//GEN-LAST:event_jButtonLCorredoresActionPerformed
-
-    private void menuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuMenuSelected
-        // TODO add your handling code here:
-       
-    }//GEN-LAST:event_menuMenuSelected
-
-    private void lookfeelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lookfeelItemStateChanged
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_lookfeelItemStateChanged
-
-    private void lookfeelMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_lookfeelMenuSelected
-        // TODO add your handling code here:
-        System.out.println(evt.toString());
-    }//GEN-LAST:event_lookfeelMenuSelected
 
     /**
      * @param args the command line arguments
