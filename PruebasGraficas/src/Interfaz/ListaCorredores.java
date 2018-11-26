@@ -26,6 +26,7 @@ public class ListaCorredores extends javax.swing.JDialog {
         initComponents();
         this.con = con;
         con.rellenarListaCorredores(tabla);
+        setLocationRelativeTo(null);
     }
     
 

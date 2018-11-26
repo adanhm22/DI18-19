@@ -36,6 +36,7 @@ public class SeleccionCorredores extends javax.swing.JDialog {
         this.numMaximo=numMaximo;
         this.contadorPulsaciones=0;
         this.ultimoPulsado=-1;
+        setLocationRelativeTo(null);
     }
 
     /**

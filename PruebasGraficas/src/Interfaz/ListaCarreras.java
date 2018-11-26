@@ -22,6 +22,7 @@ public class ListaCarreras extends javax.swing.JDialog {
         initComponents();
         this.con=con;
         con.rellenarListaCarreras(jTable1);
+        setLocationRelativeTo(null);
     }
 
     /**

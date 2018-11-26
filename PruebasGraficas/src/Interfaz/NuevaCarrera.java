@@ -52,6 +52,7 @@ public class NuevaCarrera extends javax.swing.JDialog {
                 }
             }
         });
+        setLocationRelativeTo(null);
     }
 
     /**

@@ -49,6 +49,7 @@ public class AltaUsuario extends javax.swing.JDialog {
                 }
             }
         });
+        setLocationRelativeTo(null);
     }
 
     public AltaUsuario(java.awt.Dialog parent, boolean modal, Corredor corredor) {
