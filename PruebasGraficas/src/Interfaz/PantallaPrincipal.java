@@ -31,7 +31,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     public PantallaPrincipal() {
         initComponents();
-        con = new Controladora();
+        con = Controladora.getInstance();
         Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
         setIconImage(icono);
         UIManager.installLookAndFeel(new UIManager.LookAndFeelInfo("JTatoo", com.jtattoo.plaf.smart.SmartLookAndFeel.class.getName()));

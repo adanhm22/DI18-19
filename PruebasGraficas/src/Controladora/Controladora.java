@@ -6,10 +6,11 @@
 package Controladora;
 
 import Modelo.Carrera;
+import Modelo.CarreraFinalizada;
+import Modelo.CarreraSinFinalizar;
 import Modelo.Corredor;
 import Modelo.CorredorException;
 import Modelo.Utiles;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -22,99 +23,94 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Controladora {
 
-    private ControladorCorredores cc;
-    private ControladoraFicheros cf;
-    private List<Carrera> listaCarrera;
-
-    public Controladora() {
-        this.cc = new ControladorCorredores();
-        this.cf = new ControladoraFicheros();
-        this.listaCarrera = new ArrayList<>();
+    private GestionCorredores gestionCorredores;
+    private GestionCarreras gestionCarreras;
+    
+    private static Controladora CONTROLADORA;
+    
+    public static Controladora getInstance()
+    {
+        if(CONTROLADORA==null)
+            CONTROLADORA=new Controladora();
+        return CONTROLADORA;
     }
 
-    public void darAlta(String[] datos) throws CorredorException {
-        cc.nuevoCorredor(datos);
-
+    private Controladora() {
+        this.gestionCorredores = new GestionCorredores();
+        this.gestionCarreras=new GestionCarreras();
     }
 
-    public void modificarCorredor(String[] datos) {
-        try {
-            cc.modificarCorredor(datos);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ha ocurrido un problema, " + e.getMessage());
-        } catch (CorredorException ex) {
-            System.out.println(ex.getMessage());
-        }
+    private Controladora(GestionCorredores gestionCorredores, GestionCarreras gestionCarreras) {
+        this.gestionCorredores = gestionCorredores;
+        this.gestionCarreras = gestionCarreras;
+    }
 
+    public void darAltaCorredor(String[] datos) throws CorredorException {
+        gestionCorredores.nuevoCorredor(datos);
+    }
+
+    public void modificarCorredor(String[] datos) throws CorredorException {
+            gestionCorredores.modificarCorredor(datos);
     }
 
     public void borrarCorredor(String dni) {
-        try {
-            cc.borrarCorredor(dni);
-        } catch (CorredorException ex) {
-            System.out.println(ex.getMessage());
-        }
+        
     }
 
     public void mostrarCorredores() {
-        List<Modelo.Corredor> corredores = cc.getCorredores();
+        List<Modelo.Corredor> corredores = gestionCorredores.getCorredores();
         for (Corredor corredore : corredores) {
             System.out.println(corredore);
         }
     }
 
-    public void ordenarPorFecha() {
-        cc.ordenar();
-        this.mostrarCorredores();
+    public GestionCorredores getGestionCorredores() {
+        return gestionCorredores;
     }
 
-    public List<Corredor> getCorredores() {
-        return this.cc.getCorredores();
+    public GestionCarreras getGestionCarreras() {
+        return gestionCarreras;
     }
 
-    public List<Carrera> getListaCarrera() {
-        return listaCarrera;
-    }
-
-    public void rellenarListaCorredores(JTable lista) {
-        String[] columnas = {"DNI", "Nombre", "Fecha nac", "telf", "Direccion"};
-        DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-        String[] campos = new String[5];
-        for (Corredor corredore : cc.getCorredores()) {
-            campos[0] = corredore.getDNI();
-            campos[1] = corredore.getNombre();
-            campos[2] = Utiles.sdf.format(corredore.getFechaNac());
-            campos[3] = String.valueOf(corredore.getTelef());
-            campos[4] = corredore.getDireccion();
-            dtm.addRow(campos);
-        }
-        lista.setModel(dtm);
-    }
-
-    public void rellenarListaCarreras(JTable lista) {
-        String[] columnas = {"nombre", "lugar", "fecha","participantes","corredores"};
-        DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-        String[] campos = new String[5];
-        for (Carrera carrera : listaCarrera) {
-            campos[0] = carrera.getNombre();
-            campos[1] = carrera.getDireccion();
-            campos[2] = Utiles.sdf.format(carrera.getFechaCarrera());
-            campos[3] = String.valueOf(carrera.getNumeroParticipantes());
-            campos[4]="";
-            for (String string : carrera.getCorredores().keySet()) {
-                campos[4]+=string+": "+carrera.conseguirCorredores(string).getNombre()+" ";
+    public void rellenarTablaCarreras(boolean terminada, JTable tabla) {
+        
+        if(terminada){
+            List<CarreraFinalizada> carrerasFinalizadas = this.gestionCarreras.getCarrerasFinalizadas();
+            String[] columnas = {"nombre", "lugar", "fecha","participantes","ganador"};
+             DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
+             String[] campos=new String[5];
+             for (CarreraFinalizada carreras : carrerasFinalizadas) {
+                campos[0]=carreras.getNombre();
+                campos[1]=carreras.getDireccion();
+                campos[2]=Utiles.sdf.format(carreras.getFechaCarrera());
+                campos[3]=String.valueOf(carreras.getNumeroParticipantes());
+                campos[5]=carreras.getNombreGanador();
+                dtm.addRow(campos);
             }
-            dtm.addRow(campos);
+             tabla.setModel(dtm);
         }
-        lista.setModel(dtm);
+        else{
+            List<CarreraSinFinalizar> carrerasSinFinalizar = this.gestionCarreras.getCarrerasSinFinalizar();
+            String[] columnas = {"nombre", "lugar", "fecha","participantes"};
+             DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
+             String[] campos=new String[4];
+             for (CarreraSinFinalizar carreras : carrerasSinFinalizar) {
+                campos[0]=carreras.getNombre();
+                campos[1]=carreras.getDireccion();
+                campos[2]=Utiles.sdf.format(carreras.getFechaCarrera());
+                campos[3]=String.valueOf(carreras.getNumeroParticipantes());
+            }
+             tabla.setModel(dtm);
+            
+        }
+            
     }
 
-    public void rellenarListaCorredores(JList<String> lista) {
-        DefaultListModel dlm = new DefaultListModel();
-        for (Corredor corredor : cc.getCorredores()) {
-            dlm.addElement(corredor);
-        }
-        lista.setModel(dlm);
+    public void rellenarListaCorredores(JTable jTable1) {
+        String[] columnas = {"nombre", "lugar", "fecha","participantes"};
+             DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
+             String[] campos=new String[4];
     }
+    
 
 }

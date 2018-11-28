@@ -242,7 +242,7 @@ public class AltaUsuario extends javax.swing.JDialog {
                 datos[4] = this.direccionTexto.getText();
 
                 try {
-                    con.darAlta(datos);
+                    con.darAltaCorredor(datos);
                     JOptionPane.showMessageDialog(this, "el corredor con dni '" + datos[0] + "' ha sido añadido", "Corredor añadido", JOptionPane.INFORMATION_MESSAGE);
                 } catch (CorredorException | IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

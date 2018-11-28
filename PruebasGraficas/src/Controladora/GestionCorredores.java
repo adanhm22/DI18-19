@@ -19,11 +19,11 @@ import java.util.List;
  *
  * @author Adán
  */
-public class ControladorCorredores {
+public class GestionCorredores {
 
     private List<Corredor> corredores;
 
-    public ControladorCorredores() {
+    public GestionCorredores() {
         this.corredores = new ArrayList<>();
     }
 

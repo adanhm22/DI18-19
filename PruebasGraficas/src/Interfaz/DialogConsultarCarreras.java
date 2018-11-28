@@ -5,20 +5,30 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
+
 /**
  *
  * @author alumnop
  */
 public class DialogConsultarCarreras extends javax.swing.JDialog {
 
+
     /**
      * Creates new form DialogConsultarCarreras
      */
-    public DialogConsultarCarreras(java.awt.Frame parent, boolean modal) {
+    public DialogConsultarCarreras(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.botonSTerminar.setEnabled(false);
+        setLocationRelativeTo(null);
+        rellenarTabla(false);
     }
 
+    private void rellenarTabla(boolean terminada){
+            Controladora.getInstance().rellenarTablaCarreras(terminada,this.tabla);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,10 +41,12 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tabla = new javax.swing.JTable();
+        botonModificar = new javax.swing.JButton();
+        botonEliminar = new javax.swing.JButton();
+        botonParticipantes = new javax.swing.JButton();
+        botonSTerminar = new javax.swing.JButton();
+        botonTerminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -48,7 +60,7 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.jLabel1.text")); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -59,13 +71,27 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
-        jButton2.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.jButton2.text")); // NOI18N
+        botonModificar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonModificar.text")); // NOI18N
 
-        jButton3.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.jButton3.text")); // NOI18N
+        botonEliminar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonEliminar.text")); // NOI18N
 
-        jButton4.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.jButton4.text")); // NOI18N
+        botonParticipantes.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonParticipantes.text")); // NOI18N
+
+        botonSTerminar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonSTerminar.text")); // NOI18N
+        botonSTerminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSTerminarActionPerformed(evt);
+            }
+        });
+
+        botonTerminar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonTerminar.text")); // NOI18N
+        botonTerminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonTerminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,11 +101,11 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(botonModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(botonEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
+                        .addComponent(botonParticipantes))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -87,7 +113,11 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel1))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonSTerminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonTerminar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -97,13 +127,17 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jLabel1))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonSTerminar)
+                    .addComponent(botonTerminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(botonModificar)
+                    .addComponent(botonEliminar)
+                    .addComponent(botonParticipantes))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -115,55 +149,35 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogConsultarCarreras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogConsultarCarreras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogConsultarCarreras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogConsultarCarreras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void botonSTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSTerminarActionPerformed
+        // TODO add your handling code here:
+        this.botonSTerminar.setEnabled(false);
+        this.botonTerminar.setEnabled(true);
+        this.botonModificar.setEnabled(true);
+        this.botonModificar.setEnabled(true);
+        rellenarTabla(false);
+    }//GEN-LAST:event_botonSTerminarActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DialogConsultarCarreras dialog = new DialogConsultarCarreras(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void botonTerminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTerminarActionPerformed
+        // TODO add your handling code here:
+        this.botonTerminar.setEnabled(false);
+        this.botonSTerminar.setEnabled(true);
+        this.botonModificar.setEnabled(false);
+        this.botonModificar.setEnabled(false);
+        rellenarTabla(true);
+    }//GEN-LAST:event_botonTerminarActionPerformed
+
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonEliminar;
+    private javax.swing.JButton botonModificar;
+    private javax.swing.JButton botonParticipantes;
+    private javax.swing.JButton botonSTerminar;
+    private javax.swing.JButton botonTerminar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

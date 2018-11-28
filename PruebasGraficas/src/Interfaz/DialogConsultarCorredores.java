@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
+
 /**
  *
  * @author alumnop
@@ -20,6 +22,9 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
 
+    private void rellenarTabla(){
+        Controladora.getInstance().rellenarListaCorredores(jTable1);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

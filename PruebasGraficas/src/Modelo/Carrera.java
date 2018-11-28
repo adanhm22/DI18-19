@@ -20,14 +20,12 @@ public class Carrera {
     private String nombre, direccion;
     private Date fechaCarrera;
     private int numeroParticipantes;
-    private HashMap<String,Corredor> corredores;
 
     public Carrera(String nombre, String direccion, Date fechaCarrera, int numParticipantes) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.fechaCarrera = fechaCarrera;
         this.numeroParticipantes = numParticipantes;
-        this.corredores = new HashMap<>();
     }
 
     public String getNombre() {
@@ -62,23 +60,9 @@ public class Carrera {
         this.numeroParticipantes = numeroParticipantes;
     }
 
-    public Corredor conseguirCorredores(String Dorsal) {
-        return this.corredores.get(Dorsal);
-    }
-
-    public Corredor aniadirCorredoresDorsal(String dorsal, Corredor corredor) {
-        return this.corredores.put(dorsal, corredor);
-    }
-
-    public Map<String, Corredor> getCorredores() {
-        return corredores;
-    }
-    
-    
-
     @Override
     public String toString() {
-        return "Carrera{" + "nombre=" + nombre + ", direccion=" + direccion + ", fechaCarrera=" + fechaCarrera + ", numeroParticipantes=" + numeroParticipantes + ", carredores=" + corredores + '}';
+        return "Carrera{" + "nombre=" + nombre + ", direccion=" + direccion + ", fechaCarrera=" + fechaCarrera + ", numeroParticipantes=" + numeroParticipantes + '}';
     }
 
 }
