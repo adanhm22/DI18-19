@@ -8,6 +8,16 @@ package Interfaz;
 import Controladora.Controladora;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -21,7 +31,7 @@ import org.openide.util.Exceptions;
  *
  * @author alumnop
  */
-public class PantallaPrincipal extends javax.swing.JFrame {
+public class FramePantallaPrincipal extends javax.swing.JFrame {
 
     private Controladora con;
 
@@ -29,7 +39,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      * Creates new form PantallaPrincipal
      */
 
-    public PantallaPrincipal() {
+    public FramePantallaPrincipal() {
         initComponents();
         con = Controladora.getInstance();
         Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
@@ -41,6 +51,50 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             ji.addActionListener((ActionEvent e) -> cambiarLookFeel(info.getName()));
         }
         setLocationRelativeTo(null);
+        addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ObjectOutputStream oos = null;
+                try {
+                    FileOutputStream fos = new FileOutputStream("./controladora.dat");
+                    oos = new ObjectOutputStream(fos);
+                    oos.writeObject(Controladora.getInstance());
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                } finally {
+                    try {
+                        oos.close();
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        } );
     }
     
     private void cambiarLookFeel (String name ){
@@ -77,7 +131,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         configuracion = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 300));
         setResizable(false);
         setSize(new java.awt.Dimension(400, 300));
 
@@ -188,21 +241,22 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FramePantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Locale.setDefault(new Locale("es", "ES"));
-                new PantallaPrincipal().setVisible(true);
+                new FramePantallaPrincipal().setVisible(true);
             }
         });
     }

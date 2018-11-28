@@ -5,6 +5,7 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author alumnop
  */
-public class Corredor implements Comparable<Corredor>, Comparator<Corredor> {
+public class Corredor implements Comparable<Corredor>,Serializable {
 
     private int telef;
     private String Nombre, Direccion;
@@ -27,6 +28,16 @@ public class Corredor implements Comparable<Corredor>, Comparator<Corredor> {
         this.Nombre = Nombre;
         this.DNI = DNI;
     }
+
+    public Corredor( String DNI, String Nombre, String Direccion,int telef, Date fechaNac) {
+        this.telef = telef;
+        this.Nombre = Nombre;
+        this.Direccion = Direccion;
+        this.DNI = DNI;
+        this.fechaNac = fechaNac;
+    }
+    
+    
 
     public int getTelef() {
         return telef;
@@ -82,11 +93,15 @@ public class Corredor implements Comparable<Corredor>, Comparator<Corredor> {
     }
 
     @Override
-    public int compare(Corredor o1, Corredor o2) {
-        if (o1 == o2) {
-            return 0;
-        }
-        return o1.DNI.compareTo(o2.DNI);
+    public boolean equals(Object obj) {
+        if(obj==this)
+            return true;
+        if(obj instanceof Corredor)
+            return this.DNI.equals(((Corredor) obj).DNI);
+        return false;
+            
     }
+    
+    
 
 }

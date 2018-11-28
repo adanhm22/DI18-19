@@ -5,6 +5,9 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
+import Controladora.GestionCarreras;
+import Controladora.GestionCorredores;
 import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 import sun.swing.SwingAccessor;
@@ -15,7 +18,6 @@ import sun.swing.SwingAccessor;
  */
 public class DialogCarreras extends javax.swing.JDialog {
 
-
     /**
      * Creates new form DialogCarreras
      */
@@ -23,14 +25,45 @@ public class DialogCarreras extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        comprobarCarreras();
     }
-    
-    
-    public DialogCarreras(java.awt.Dialog parent,boolean modal){
-        super(parent,modal);
+
+    public DialogCarreras(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         parent.dispose();
+        comprobarCarreras();
+    }
+
+    private void comprobarCarreras() {
+
+        
+
+        GestionCarreras gestionCarreras
+                = Controladora.getInstance().getGestionCarreras();
+
+        if (gestionCarreras.getCarrerasFinalizadas().isEmpty()
+                && gestionCarreras.getCarrerasSinFinalizar().isEmpty()) {
+            this.botonIniciarCarrera.setEnabled(false);
+            this.botonConsultarCarrera.setEnabled(false);
+            
+            this.errores.setText("no hay ninguna carrera creada");
+        } else {
+                this.botonConsultarCarrera.setEnabled(true);
+                GestionCorredores gestionCorredores
+                    = Controladora.getInstance().getGestionCorredores();
+
+            if (gestionCorredores.getCorredores().isEmpty()) {
+                this.botonIniciarCarrera.setEnabled(false);
+                this.errores.setText("No hay ningun corredor creado");
+
+            } else {
+                this.botonIniciarCarrera.setEnabled(true);
+                this.errores.setText("");
+            }
+        }
+
     }
 
     /**
@@ -45,9 +78,10 @@ public class DialogCarreras extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         botonCarrera = new javax.swing.JButton();
         botonIniciarCarrera = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        botonConsultarCarrera = new javax.swing.JButton();
         botonInicio = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        errores = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -55,6 +89,11 @@ public class DialogCarreras extends javax.swing.JDialog {
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.jLabel1.text")); // NOI18N
 
         botonCarrera.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.botonCarrera.text")); // NOI18N
+        botonCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCarreraActionPerformed(evt);
+            }
+        });
 
         botonIniciarCarrera.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.botonIniciarCarrera.text")); // NOI18N
         botonIniciarCarrera.addActionListener(new java.awt.event.ActionListener() {
@@ -63,10 +102,10 @@ public class DialogCarreras extends javax.swing.JDialog {
             }
         });
 
-        jButton3.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.jButton3.text")); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        botonConsultarCarrera.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.botonConsultarCarrera.text")); // NOI18N
+        botonConsultarCarrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                botonConsultarCarreraActionPerformed(evt);
             }
         });
 
@@ -79,37 +118,33 @@ public class DialogCarreras extends javax.swing.JDialog {
 
         jLabel3.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.jLabel3.text")); // NOI18N
 
+        errores.setForeground(new java.awt.Color(206, 41, 41));
+        errores.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.errores.text")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(botonIniciarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botonCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton3))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botonConsultarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(errores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(botonIniciarCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
+                                .addGap(75, 75, 75)
                                 .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(botonInicio)))
+                            .addComponent(botonInicio)
+                            .addComponent(jLabel3))
                         .addGap(0, 177, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,9 +161,11 @@ public class DialogCarreras extends javax.swing.JDialog {
                         .addComponent(botonIniciarCarrera))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonConsultarCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(botonInicio)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonInicio)
+                    .addComponent(errores))
                 .addContainerGap())
         );
 
@@ -145,18 +182,24 @@ public class DialogCarreras extends javax.swing.JDialog {
         new DialogIniciarCarreras(this, true).setVisible(true);
     }//GEN-LAST:event_botonIniciarCarreraActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void botonConsultarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarCarreraActionPerformed
         // TODO add your handling code here:
         new DialogConsultarCarreras(this, true).setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_botonConsultarCarreraActionPerformed
 
-   
+    private void botonCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCarreraActionPerformed
+        // TODO add your handling code here:
+        new DialogAltaCarrera(this, true).setVisible(true);
+        comprobarCarreras();
+    }//GEN-LAST:event_botonCarreraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCarrera;
+    private javax.swing.JButton botonConsultarCarrera;
     private javax.swing.JButton botonIniciarCarrera;
     private javax.swing.JButton botonInicio;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel errores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables

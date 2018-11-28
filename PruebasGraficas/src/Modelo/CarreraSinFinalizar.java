@@ -5,6 +5,7 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,21 +14,12 @@ import java.util.List;
  *
  * @author alumnop
  */
-public class CarreraSinFinalizar extends Carrera{
+public class CarreraSinFinalizar extends Carrera {
     
-    private List<Dorsal> corredores;
+    
     
     public CarreraSinFinalizar(String nombre, String direccion, Date fechaCarrera, int numParticipantes) {
         super(nombre, direccion, fechaCarrera, numParticipantes);
-        this.corredores=new ArrayList<>();
-    }
-
-    public List<Dorsal> getCorredores() {
-        return corredores;
-    }
-
-    public void setCorredores(List<Dorsal> corredores) {
-        this.corredores = corredores;
     }
     
     

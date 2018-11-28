@@ -5,6 +5,7 @@
  */
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,8 +16,9 @@ import java.util.Map;
  *
  * @author alumnop
  */
-public class Carrera {
+public class Carrera implements Serializable,Comparable<Carrera>{
 
+    private List<Dorsal> corredores;
     private String nombre, direccion;
     private Date fechaCarrera;
     private int numeroParticipantes;
@@ -26,6 +28,7 @@ public class Carrera {
         this.direccion = direccion;
         this.fechaCarrera = fechaCarrera;
         this.numeroParticipantes = numParticipantes;
+        this.corredores=new ArrayList<>();
     }
 
     public String getNombre() {
@@ -60,9 +63,34 @@ public class Carrera {
         this.numeroParticipantes = numeroParticipantes;
     }
 
+    public List<Dorsal> getCorredores() {
+        return corredores;
+    }
+
+    public void setCorredores(List<Dorsal> corredores) {
+        this.corredores = corredores;
+    }
+
     @Override
     public String toString() {
         return "Carrera{" + "nombre=" + nombre + ", direccion=" + direccion + ", fechaCarrera=" + fechaCarrera + ", numeroParticipantes=" + numeroParticipantes + '}';
     }
+
+    @Override
+    public int compareTo(Carrera o) {
+        return this.nombre.compareTo(o.getNombre());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj)
+            return true;
+        if(obj instanceof Carrera)
+            return ((Carrera) obj).getNombre().equals(this.getNombre());
+        else
+            return false;
+    }
+    
+    
 
 }

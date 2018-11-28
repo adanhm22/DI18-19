@@ -7,14 +7,16 @@ package Controladora;
 
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author alumnop
  */
-public class GestionCarreras {
+public class GestionCarreras implements Serializable{
     private List<CarreraSinFinalizar> carrerasSinFinalizar;
     private List<CarreraFinalizada> carrerasFinalizadas;
 
@@ -34,6 +36,14 @@ public class GestionCarreras {
 
     public List<CarreraFinalizada> getCarrerasFinalizadas() {
         return carrerasFinalizadas;
+    }
+
+    public boolean nuevaCarrera(String nombre, String direccion, Date fecha, int participantes) {
+        CarreraSinFinalizar nueva = new CarreraSinFinalizar(nombre, direccion, fecha, participantes);
+        if(this.carrerasSinFinalizar.contains(nueva)){
+            return false;
+        }
+        return this.carrerasSinFinalizar.add(nueva);
     }
     
     

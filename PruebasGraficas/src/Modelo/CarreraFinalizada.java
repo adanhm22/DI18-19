@@ -16,23 +16,13 @@ import java.util.List;
 public class CarreraFinalizada extends Carrera{
     
     private String nombreGanador;
-    private List<Dorsal> corredores;
     
     public CarreraFinalizada(String nombre, String direccion, Date fechaCarrera, int numParticipantes) {
         super(nombre, direccion, fechaCarrera, numParticipantes);
-        this.corredores=new ArrayList<>();
     }
 
     public String getNombreGanador() {
         return nombreGanador;
-    }
-    
-    public List<Dorsal> getCorredores() {
-        return corredores;
-    }
-
-    public void setCorredores(List<Dorsal> corredores) {
-        this.corredores = corredores;
     }
     
 }

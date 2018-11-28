@@ -5,11 +5,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author alumnop
  */
-public class Dorsal {
+public class Dorsal implements Serializable,Comparable<Dorsal> {
     private String dorsal;
     private Corredor corredor;
 
@@ -33,6 +35,22 @@ public class Dorsal {
         this.dorsal = dorsal;
         this.corredor = corredor;
     }
+
+    @Override
+    public int compareTo(Dorsal o) {
+        return this.dorsal.compareTo(o.dorsal);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj)
+            return true;
+        if(obj instanceof Dorsal)
+            return ((Dorsal) obj).getDorsal().equals(this.dorsal);
+        return false;
+    }
+    
+    
     
     
 }

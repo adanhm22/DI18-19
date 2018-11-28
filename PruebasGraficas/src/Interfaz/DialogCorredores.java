@@ -5,6 +5,9 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
+import Controladora.GestionCorredores;
+
 /**
  *
  * @author alumnop
@@ -18,8 +21,21 @@ public class DialogCorredores extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        comprobarCorredores();
     }
 
+    
+    private void comprobarCorredores(){
+        GestionCorredores gestion = Controladora.getInstance().getGestionCorredores();
+        
+        if(gestion.getCorredores().isEmpty()){
+            this.botonConsultarCorredores.setEnabled(false);
+            this.errores.setText("no hay ningun corredor");
+        }else{
+            this.botonConsultarCorredores.setEnabled(true);
+            this.errores.setText("");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,10 +47,11 @@ public class DialogCorredores extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        botonConsultarCorredores = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        errores = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -43,14 +60,19 @@ public class DialogCorredores extends javax.swing.JDialog {
 
         jLabel2.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jLabel2.text")); // NOI18N
 
-        jButton1.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonConsultarCorredores.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.botonConsultarCorredores.text")); // NOI18N
+        botonConsultarCorredores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonConsultarCorredoresActionPerformed(evt);
             }
         });
 
         jButton2.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jButton2.text")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jButton3.text")); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +87,9 @@ public class DialogCorredores extends javax.swing.JDialog {
                 jButton4ActionPerformed(evt);
             }
         });
+
+        errores.setForeground(new java.awt.Color(215, 45, 45));
+        errores.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.errores.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,15 +109,14 @@ public class DialogCorredores extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(errores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonConsultarCorredores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -109,10 +133,12 @@ public class DialogCorredores extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
                         .addGap(30, 30, 30)
-                        .addComponent(jButton4))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(errores)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonConsultarCorredores, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -129,10 +155,17 @@ public class DialogCorredores extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonConsultarCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarCorredoresActionPerformed
         // TODO add your handling code here:
         new DialogConsultarCorredores(this, true).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        comprobarCorredores();
+    }//GEN-LAST:event_botonConsultarCorredoresActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new DialogAltaCorredor(this,true).setVisible(true);
+        comprobarCorredores();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,7 +210,8 @@ public class DialogCorredores extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton botonConsultarCorredores;
+    private javax.swing.JLabel errores;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

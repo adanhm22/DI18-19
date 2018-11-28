@@ -6,6 +6,9 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Modelo.Corredor;
+import Modelo.CorredorException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,10 +23,11 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        rellenarTabla();
     }
 
     private void rellenarTabla(){
-        Controladora.getInstance().rellenarListaCorredores(jTable1);
+        Controladora.getInstance().rellenarTablaCorredores(tabla);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,27 +38,27 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        botonAtras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tabla = new javax.swing.JTable();
+        botonModificar = new javax.swing.JButton();
+        botonBorrar = new javax.swing.JButton();
+        botonAniadirCarrera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.jButton1.text")); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonAtras.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.botonAtras.text")); // NOI18N
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonAtrasActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.jLabel1.text")); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -65,34 +69,42 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
-        jButton2.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.jButton2.text")); // NOI18N
+        botonModificar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.botonModificar.text")); // NOI18N
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.jButton3.text")); // NOI18N
+        botonBorrar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.botonBorrar.text")); // NOI18N
+        botonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBorrarActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.jButton4.text")); // NOI18N
+        botonAniadirCarrera.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.botonAniadirCarrera.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addGap(45, 45, 45)
-                                .addComponent(jButton4)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(botonAtras)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(botonModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
+                        .addComponent(botonBorrar)
+                        .addGap(45, 45, 45)
+                        .addComponent(botonAniadirCarrera)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,36 +112,66 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(botonAtras)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(botonModificar)
+                    .addComponent(botonBorrar)
+                    .addComponent(botonAniadirCarrera))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonAtrasActionPerformed
+
+    private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
+        // TODO add your handling code here:
+        int seleccion = JOptionPane.showConfirmDialog(this,"estás seguro de borrar el corredor?");
+        if(seleccion==JOptionPane.OK_OPTION){
+            if(this.tabla.getSelectedRow()>=0){
+                try {
+                    String dni = Controladora.getInstance()
+                            .getGestionCorredores().getCorredores()
+                            .get(this.tabla.getSelectedRow()).getDNI();
+                    Controladora.getInstance().borrarCorredor(dni);
+                    rellenarTabla();
+                    JOptionPane.showMessageDialog(this, "el corredor se ha borrado");
+                    if(Controladora.getInstance()
+                            .getGestionCorredores().getCorredores().isEmpty())
+                        dispose();
+                } catch (CorredorException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+            }else{
+                JOptionPane.showMessageDialog(this,"no has seleccionado corredor");
+            }
+        }
+    }//GEN-LAST:event_botonBorrarActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        // TODO add your handling code here:
+        Corredor corredor = Controladora.getInstance().getGestionCorredores().getCorredores().get(this.tabla.getSelectedRow());
+        new DialogAltaCorredor(this,true, corredor).setVisible(true);
+    }//GEN-LAST:event_botonModificarActionPerformed
 
   
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton botonAniadirCarrera;
+    private javax.swing.JButton botonAtras;
+    private javax.swing.JButton botonBorrar;
+    private javax.swing.JButton botonModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }
