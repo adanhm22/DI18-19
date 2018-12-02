@@ -5,8 +5,11 @@
  */
 package Controladora;
 
+import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import Modelo.Corredor;
+import Modelo.Dorsal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +49,20 @@ public class GestionCarreras implements Serializable{
         return this.carrerasSinFinalizar.add(nueva);
     }
     
-    
-    
+    /**
+     * devuelve una lista de corredores que no estén en 
+     * la carrera puesta por parametro
+     * @param carrera
+     * @return 
+     */
+    public List<Corredor> getCorredoresFueraCarrera(Carrera carrera){
+        List<Dorsal> corredoresCarrera = new ArrayList<>(carrera.getCorredores());
+        List<Corredor> corredoresLibre =
+                new ArrayList<>(Controladora.getInstance()
+                        .getGestionCorredores().getCorredores());
+        corredoresCarrera.forEach((Dorsal dorsal)->corredoresLibre.remove(dorsal.getCorredor()));
+        
+        return corredoresLibre;
+    }
     
 }

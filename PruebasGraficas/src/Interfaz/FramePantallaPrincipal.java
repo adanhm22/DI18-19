@@ -6,6 +6,7 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Modelo.Configuracion;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -22,6 +23,7 @@ import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -53,47 +55,30 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         addWindowListener(new WindowListener() {
             @Override
-            public void windowOpened(WindowEvent e) {
-            }
+            public void windowOpened(WindowEvent e) {}
 
             @Override
             public void windowClosing(WindowEvent e) {
-                ObjectOutputStream oos = null;
                 try {
-                    FileOutputStream fos = new FileOutputStream("./controladora.dat");
-                    oos = new ObjectOutputStream(fos);
-                    oos.writeObject(Controladora.getInstance());
+                    Controladora.grabarControladoraObjeto();   
                 } catch (IOException ex) {
                     Exceptions.printStackTrace(ex);
-                } finally {
-                    try {
-                        oos.close();
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
                 }
             }
+            @Override
+            public void windowClosed(WindowEvent e) {}
 
             @Override
-            public void windowClosed(WindowEvent e) {
-                
-            }
+            public void windowIconified(WindowEvent e) {}
 
             @Override
-            public void windowIconified(WindowEvent e) {
-            }
+            public void windowDeiconified(WindowEvent e) {}
 
             @Override
-            public void windowDeiconified(WindowEvent e) {
-            }
+            public void windowActivated(WindowEvent e) {}
 
             @Override
-            public void windowActivated(WindowEvent e) {
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-            }
+            public void windowDeactivated(WindowEvent e) {}
         } );
     }
     
@@ -101,8 +86,9 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         for (UIManager.LookAndFeelInfo installedLookAndFeel : UIManager.getInstalledLookAndFeels()) {
             if(name.equals(installedLookAndFeel.getName())){
                 try {
-                    UIManager.setLookAndFeel(installedLookAndFeel.getClassName());
-                    SwingUtilities.updateComponentTreeUI(this);
+                    Configuracion conf = Controladora.getInstance().getConf();
+                    conf.setLookAndFeel(installedLookAndFeel);
+                    Controladora.getInstance().cambiarConfiguracion(conf, this);
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     Exceptions.printStackTrace(ex);
                 }
@@ -165,6 +151,11 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         menu.add(lookfeel);
 
         configuracion.setText("Configuracion");
+        configuracion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                configuracionActionPerformed(evt);
+            }
+        });
         menu.add(configuracion);
 
         jMenuBar1.add(menu);
@@ -222,7 +213,13 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
 
     private void botonConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfiguracionActionPerformed
         // TODO add your handling code here:
+        new DialogConfiguracion(this, true).setVisible(true);
     }//GEN-LAST:event_botonConfiguracionActionPerformed
+
+    private void configuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configuracionActionPerformed
+        // TODO add your handling code here:
+         new DialogConfiguracion(this, true).setVisible(true);
+    }//GEN-LAST:event_configuracionActionPerformed
 
     /**
      * @param args the command line arguments

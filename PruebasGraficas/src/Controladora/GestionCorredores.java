@@ -5,8 +5,10 @@
  */
 package Controladora;
 
+import Modelo.CarreraSinFinalizar;
 import Modelo.Corredor;
 import Modelo.CorredorException;
+import Modelo.Dorsal;
 import static Modelo.Utiles.sdf;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -30,11 +32,19 @@ public class GestionCorredores implements Serializable{
     
     public void borrarCorredor(String dni) throws CorredorException{
         Corredor c = new Corredor (dni);
-        int zona = Collections.binarySearch(getCorredores(), c);
-        if(zona<0){
+        if(!corredores.contains(c)){
             throw new CorredorException("El corredor no existe");
         }else{
-            this.getCorredores().remove(zona);
+            GestionCarreras gestionCarreras=Controladora.getInstance().getGestionCarreras();
+            for (CarreraSinFinalizar carreraSinFinalizar : gestionCarreras.getCarrerasSinFinalizar()) {
+                for (Dorsal dorsal : carreraSinFinalizar.getCorredores()) {
+                    if(dorsal.getCorredor().equals(c))
+                        throw new CorredorException("el corredor está en la carrera '"
+                                +carreraSinFinalizar.getNombre()+
+                                "' no se puede borrar un corredor en una carrera");
+                }
+            }
+            this.getCorredores().remove(c);
         }
     }
 

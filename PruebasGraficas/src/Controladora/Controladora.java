@@ -8,17 +8,27 @@ package Controladora;
 import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import Modelo.Configuracion;
 import Modelo.Corredor;
 import Modelo.CorredorException;
 import Modelo.Dorsal;
 import Modelo.Utiles;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import org.openide.util.Exceptions;
 
@@ -28,47 +38,103 @@ import org.openide.util.Exceptions;
  */
 public class Controladora implements Serializable{
 
+    private Configuracion conf;
+    private transient Timer rutina;
     private GestionCorredores gestionCorredores;
     private GestionCarreras gestionCarreras;
     
     private static Controladora CONTROLADORA;
     
+    private Controladora() {
+        this.gestionCorredores = new GestionCorredores();
+        this.gestionCarreras=new GestionCarreras();
+        this.conf=new Configuracion(true, UIManager.getInstalledLookAndFeels()[1], 1);
+        if(conf.isTemporizadorActivado()){
+            this.rutina=new Timer();
+            this.rutina.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                            Controladora.grabarControladoraObjeto();
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }
+                    }
+            }, 0,conf.getMinutos()*60*1000);
+        }
+    }
+    
     public static Controladora getInstance()
     {
         if(CONTROLADORA==null){
-            File controlador = new File("./controladora.dat");
-            if(controlador.exists()){
-                ObjectInputStream ois = null;
-                try {
-                    FileInputStream fis = new FileInputStream(controlador);
-                    ois = new ObjectInputStream(fis);
-                    CONTROLADORA = (Controladora) ois.readObject();
-                } catch (IOException ex) {
-                        ex.printStackTrace();
-                }   catch (ClassNotFoundException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } finally {
-                    try {
-                        ois.close();
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
-                    }
-                }
-            }else{
+            try {
+                CONTROLADORA=leerControladoraObjeto();
+                if(CONTROLADORA==null)
+                    CONTROLADORA=new Controladora();
+            } catch (IOException | ClassNotFoundException ex) {
+                Exceptions.printStackTrace(ex);
                 CONTROLADORA=new Controladora();
             }
         }
         return CONTROLADORA;
     }
-
-    private Controladora() {
-        this.gestionCorredores = new GestionCorredores();
-        this.gestionCarreras=new GestionCarreras();
+    
+    public GestionCorredores getGestionCorredores() {
+        return gestionCorredores;
     }
 
-    private Controladora(GestionCorredores gestionCorredores, GestionCarreras gestionCarreras) {
-        this.gestionCorredores = gestionCorredores;
-        this.gestionCarreras = gestionCarreras;
+    public GestionCarreras getGestionCarreras() {
+        return gestionCarreras;
+    }
+
+    public Configuracion getConf() {
+        return conf;
+    }
+    
+
+    public static Controladora leerControladoraObjeto() throws FileNotFoundException, IOException, ClassNotFoundException{
+        File controlador = new File("controladora.dat");
+            if(controlador.exists()){
+                ObjectInputStream ois = null;
+                FileInputStream fis = new FileInputStream(controlador);
+                ois = new ObjectInputStream(fis);
+                Controladora controladora = (Controladora) ois.readObject();
+                ois.close();
+                return controladora;
+            }else{
+                return null;
+            }
+    }
+    
+    public void cambiarConfiguracion(Configuracion conf,Component componente) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
+        UIManager.setLookAndFeel(conf.getLookAndFeel().getClassName());
+        SwingUtilities.updateComponentTreeUI(componente);
+        if(this.rutina!=null){
+            this.rutina.cancel();
+            this.rutina=null;
+        }
+        if(conf.isTemporizadorActivado()){
+            this.rutina=new Timer();
+            this.rutina.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        Controladora.grabarControladoraObjeto();
+                    } catch (IOException ex) {
+                        Exceptions.printStackTrace(ex);
+                    }
+ }
+            }, 0,conf.getMinutos()*60*1000);
+        }
+        this.conf=conf;
+    }
+    
+    public static void grabarControladoraObjeto() throws IOException{
+        ObjectOutputStream oos = null;
+        FileOutputStream fos = new FileOutputStream("controladora.dat");
+        oos = new ObjectOutputStream(fos);
+        oos.writeObject(Controladora.getInstance());
+        oos.close();
     }
 
     public void borrarCorredor(String dni) throws CorredorException {
@@ -80,14 +146,6 @@ public class Controladora implements Serializable{
         for (Corredor corredore : corredores) {
             System.out.println(corredore);
         }
-    }
-
-    public GestionCorredores getGestionCorredores() {
-        return gestionCorredores;
-    }
-
-    public GestionCarreras getGestionCarreras() {
-        return gestionCarreras;
     }
 
     public void rellenarTablaCarreras(boolean terminada, JTable tabla) {

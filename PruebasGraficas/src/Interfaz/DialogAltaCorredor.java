@@ -231,16 +231,32 @@ public class DialogAltaCorredor extends javax.swing.JDialog {
 
     private void botonCrearCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearCorredorActionPerformed
         // TODO add your handling code here:
+        
         GestionCorredores gestion = Controladora.getInstance().getGestionCorredores();
         int numTelefono=(!this.telefono.getText().trim().equalsIgnoreCase(""))?
                 Integer.parseInt(this.telefono.getText().trim()):0;
+        if(corredorModificar==null){
         if(gestion.nuevoCorredor(this.dni.getText(),this.nombre.getText(),
                 this.direccion.getText(),numTelefono,(Date)this.fecha.getValue())){
             JOptionPane.showMessageDialog(this, "se ha añadido un corredor");
             botonLimpiarActionPerformed(evt);
-        }
-        else
+        }else{
             JOptionPane.showMessageDialog(this, "ya existe el corredor",null,JOptionPane.ERROR_MESSAGE);
+        }
+            
+        }else{
+            if(!gestion.getCorredores().contains(new Corredor(dni.getText().trim()))||
+                    corredorModificar.getDNI().equals(dni.getText().trim())){
+                corredorModificar.setTelef(numTelefono);
+                corredorModificar.setDNI(dni.getText().trim());
+                corredorModificar.setFechaNac((Date) fecha.getValue());
+                corredorModificar.setDireccion(direccion.getText().trim());
+                corredorModificar.setNombre(nombre.getText().trim());
+                dispose();
+            }else
+                JOptionPane.showMessageDialog(this, "ya existe el corredor",null,JOptionPane.ERROR_MESSAGE);
+        }
+            
     }//GEN-LAST:event_botonCrearCorredorActionPerformed
 
    

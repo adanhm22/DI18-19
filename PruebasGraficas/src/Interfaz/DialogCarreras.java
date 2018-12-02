@@ -185,6 +185,7 @@ public class DialogCarreras extends javax.swing.JDialog {
     private void botonConsultarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarCarreraActionPerformed
         // TODO add your handling code here:
         new DialogConsultarCarreras(this, true).setVisible(true);
+        comprobarCarreras();
     }//GEN-LAST:event_botonConsultarCarreraActionPerformed
 
     private void botonCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCarreraActionPerformed

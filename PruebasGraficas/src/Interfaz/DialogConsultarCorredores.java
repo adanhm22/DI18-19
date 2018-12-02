@@ -134,9 +134,11 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
 
     private void botonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBorrarActionPerformed
         // TODO add your handling code here:
+        if(tabla.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "no has seleccionado corredor");
+        }else{
         int seleccion = JOptionPane.showConfirmDialog(this,"estás seguro de borrar el corredor?");
         if(seleccion==JOptionPane.OK_OPTION){
-            if(this.tabla.getSelectedRow()>=0){
                 try {
                     String dni = Controladora.getInstance()
                             .getGestionCorredores().getCorredores()
@@ -150,9 +152,9 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
                 } catch (CorredorException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage());
                 }
-            }else{
-                JOptionPane.showMessageDialog(this,"no has seleccionado corredor");
-            }
+            if(Controladora.getInstance().getGestionCorredores().getCorredores().isEmpty())
+                dispose();
+        }
         }
     }//GEN-LAST:event_botonBorrarActionPerformed
 
@@ -160,6 +162,7 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         // TODO add your handling code here:
         Corredor corredor = Controladora.getInstance().getGestionCorredores().getCorredores().get(this.tabla.getSelectedRow());
         new DialogAltaCorredor(this,true, corredor).setVisible(true);
+        rellenarTabla();
     }//GEN-LAST:event_botonModificarActionPerformed
 
   

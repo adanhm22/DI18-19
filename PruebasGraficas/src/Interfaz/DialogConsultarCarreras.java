@@ -6,6 +6,8 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Controladora.GestionCarreras;
+import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
 import javax.swing.JOptionPane;
@@ -77,8 +79,18 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tabla);
 
         botonModificar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonModificar.text")); // NOI18N
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonModificarActionPerformed(evt);
+            }
+        });
 
         botonEliminar.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonEliminar.text")); // NOI18N
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonParticipantes.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCarreras.class, "DialogConsultarCarreras.botonParticipantes.text")); // NOI18N
         botonParticipantes.addActionListener(new java.awt.event.ActionListener() {
@@ -193,6 +205,38 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "no has seleccionado carrera");
         }
     }//GEN-LAST:event_botonParticipantesActionPerformed
+
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        // TODO add your handling code here:
+        if(tabla.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "no has seleccionado ninguna carrera");
+        }else{
+        Carrera carrera = Controladora.getInstance().getGestionCarreras()
+                .getCarrerasSinFinalizar().get(tabla.getSelectedRow());
+        new DialogAltaCarrera(this, true, carrera).setVisible(true);
+        rellenarTabla(botonSTerminar.isEnabled());
+        }
+    }//GEN-LAST:event_botonModificarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        // TODO add your handling code here:
+        GestionCarreras gestion = Controladora.getInstance().getGestionCarreras();
+        if(tabla.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "no has seleccionado ninguna carrera");
+        }else{
+            int seleccion=JOptionPane.showConfirmDialog(this, "quieres borrar la carrera selecionada?");
+            if(seleccion==JOptionPane.OK_OPTION){
+                
+                if(botonSTerminar.isEnabled())
+                    gestion.getCarrerasFinalizadas().remove(tabla.getSelectedRow());
+                else
+                    gestion.getCarrerasSinFinalizar().remove(tabla.getSelectedRow());
+            }
+            rellenarTabla(botonSTerminar.isEnabled());
+        }
+        if(gestion.getCarrerasFinalizadas().isEmpty()&&gestion.getCarrerasSinFinalizar().isEmpty())
+            dispose();
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
    
 

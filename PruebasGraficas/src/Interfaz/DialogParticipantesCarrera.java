@@ -9,6 +9,10 @@ import Controladora.Controladora;
 import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import Modelo.Corredor;
+import Modelo.Dorsal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +36,6 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
         Controladora.getInstance().rellenarTablaCorredores(tabla, carrera);
         setLocationRelativeTo(null);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,6 +145,30 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
     private void botonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAniadirActionPerformed
         // TODO add your handling code here:
         //sale lista en la que selecciona un corredor para añadirlo
+        if(carrera.getNumeroParticipantes()>carrera.getCorredores().size()){
+        List<Corredor> corredores = Controladora.getInstance()
+                .getGestionCarreras().getCorredoresFueraCarrera(carrera);
+        if(corredores.size()>0){
+        Corredor corredorAniadir = (Corredor) JOptionPane.showInputDialog(
+                this, "seleciona corredor","añadir corredor"
+                , JOptionPane.QUESTION_MESSAGE, null, corredores.toArray()
+                , corredores.get(0));
+        if(corredorAniadir!=null){
+            String dorsal;
+            do{
+            dorsal = JOptionPane.showInputDialog("introduce dorsal");
+            if(carrera.getCorredores().contains(new Dorsal(dorsal, corredorAniadir)))
+                JOptionPane.showMessageDialog(this, "el dorsal ya existe");
+            }while(carrera.getCorredores().contains(new Dorsal(dorsal, corredorAniadir)));
+            Dorsal dorsalAniadir=new Dorsal(dorsal, corredorAniadir);
+            carrera.getCorredores().add(dorsalAniadir);
+        Controladora.getInstance().rellenarTablaCorredores(tabla, carrera);
+        }
+        }else{
+            JOptionPane.showMessageDialog(this, "no hay corredores para añadir");
+        }
+        }else
+            JOptionPane.showMessageDialog(this, "se ha alcanzado el numero máximo de corredores");
     }//GEN-LAST:event_botonAniadirActionPerformed
 
     private void botonCrearCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearCorredorActionPerformed
