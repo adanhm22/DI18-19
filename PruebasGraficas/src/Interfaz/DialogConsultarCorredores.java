@@ -6,8 +6,12 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Controladora.GestionCarreras;
+import Modelo.Carrera;
 import Modelo.Corredor;
 import Modelo.CorredorException;
+import Modelo.Dorsal;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -86,6 +90,11 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         });
 
         botonAniadirCarrera.setText(org.openide.util.NbBundle.getMessage(DialogConsultarCorredores.class, "DialogConsultarCorredores.botonAniadirCarrera.text")); // NOI18N
+        botonAniadirCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAniadirCarreraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,6 +173,38 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         new DialogAltaCorredor(this,true, corredor).setVisible(true);
         rellenarTabla();
     }//GEN-LAST:event_botonModificarActionPerformed
+
+    private void botonAniadirCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAniadirCarreraActionPerformed
+        // TODO add your handling code here:
+        if(tabla.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(this, "no has seleccionado corredor");
+        }else{
+            Corredor corredor = Controladora.getInstance().getGestionCorredores()
+                    .getCorredores().get(tabla.getSelectedRow());
+            GestionCarreras gestion = Controladora.getInstance().getGestionCarreras();
+            List<Carrera> carreras = gestion.getCarrerasFueraCorredor(corredor);
+            if(carreras.isEmpty())
+                JOptionPane.showMessageDialog(this,"no hay carreras disponibles");
+            else{
+                Carrera carreraAniadir = (Carrera) JOptionPane.showInputDialog(
+                this, "seleciona carrera","añadir carrera"
+                , JOptionPane.QUESTION_MESSAGE, null, carreras.toArray()
+                , carreras.get(0));
+                if(carreraAniadir!=null){
+            String dorsal;
+            do{
+            dorsal = JOptionPane.showInputDialog("introduce dorsal");
+            if(carreraAniadir.getCorredores().contains(new Dorsal(dorsal, corredor)))
+                JOptionPane.showMessageDialog(this, "el dorsal ya existe");
+            }while(carreraAniadir.getCorredores().contains(new Dorsal(dorsal, corredor)));
+            Dorsal dorsalAniadir=new Dorsal(dorsal, corredor);
+            carreraAniadir.getCorredores().add(dorsalAniadir);
+            JOptionPane.showMessageDialog(this, "Se ha añadido el corredor a la carrera");
+            rellenarTabla();
+            }
+        }
+        }
+    }//GEN-LAST:event_botonAniadirCarreraActionPerformed
 
   
    

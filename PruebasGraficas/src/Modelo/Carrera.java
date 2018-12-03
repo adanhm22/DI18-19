@@ -73,7 +73,7 @@ public class Carrera implements Serializable,Comparable<Carrera>{
 
     @Override
     public String toString() {
-        return "Carrera{" + "nombre=" + nombre + ", direccion=" + direccion + ", fechaCarrera=" + fechaCarrera + ", numeroParticipantes=" + numeroParticipantes + '}';
+        return nombre+" :: "+direccion+" :: "+(numeroParticipantes-corredores.size());
     }
 
     @Override

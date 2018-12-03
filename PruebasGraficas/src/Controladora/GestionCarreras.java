@@ -9,6 +9,7 @@ import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
 import Modelo.Corredor;
+import Modelo.CorredorException;
 import Modelo.Dorsal;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -63,6 +64,23 @@ public class GestionCarreras implements Serializable{
         corredoresCarrera.forEach((Dorsal dorsal)->corredoresLibre.remove(dorsal.getCorredor()));
         
         return corredoresLibre;
+    }
+
+    public List<Carrera> getCarrerasFueraCorredor(Corredor corredor) {
+        List<Carrera> carrerasSinCorredor = new ArrayList<>();
+        for (CarreraSinFinalizar carrera : carrerasSinFinalizar) {
+            boolean carreraValida=true;
+            for (Dorsal dorsal : carrera.getCorredores()) {
+                if(dorsal.getCorredor().equals(corredor)){
+                    carreraValida=false;
+                    break;
+                }
+            }
+            if(carreraValida&&carrera.getNumeroParticipantes()>carrera.getCorredores().size()){
+                    carrerasSinCorredor.add(carrera);
+                }
+        }
+        return carrerasSinCorredor;
     }
     
 }
