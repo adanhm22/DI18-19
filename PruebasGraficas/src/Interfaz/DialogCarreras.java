@@ -8,7 +8,11 @@ package Interfaz;
 import Controladora.Controladora;
 import Controladora.GestionCarreras;
 import Controladora.GestionCorredores;
+import Modelo.Carrera;
+import Modelo.CarreraSinFinalizar;
+import java.util.List;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import sun.swing.SwingAccessor;
 
@@ -179,7 +183,13 @@ public class DialogCarreras extends javax.swing.JDialog {
 
     private void botonIniciarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarCarreraActionPerformed
         // TODO add your handling code here:
-        new DialogIniciarCarreras(this, true).setVisible(true);
+        List<CarreraSinFinalizar> carreras=Controladora.getInstance().
+                getGestionCarreras().getCarrerasSinFinalizar();
+        Carrera carreraSinFinalizar = (Carrera) JOptionPane.showInputDialog(this, 
+                "selecciona carrera", "seleccionar carrera", 
+                JOptionPane.QUESTION_MESSAGE, null,carreras.toArray(),carreras.get(0));
+        if(carreraSinFinalizar!=null)
+            new DialogIniciarCarreras(this, true, (CarreraSinFinalizar) carreraSinFinalizar).setVisible(true);
     }//GEN-LAST:event_botonIniciarCarreraActionPerformed
 
     private void botonConsultarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarCarreraActionPerformed

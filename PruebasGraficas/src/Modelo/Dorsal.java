@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Dorsal implements Serializable,Comparable<Dorsal> {
     private String dorsal;
     private Corredor corredor;
+    private int tiempo;
 
     public String getDorsal() {
         return dorsal;
@@ -29,6 +30,14 @@ public class Dorsal implements Serializable,Comparable<Dorsal> {
 
     public void setCorredor(Corredor corredor) {
         this.corredor = corredor;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
     }
 
     public Dorsal(String dorsal, Corredor corredor) {
@@ -49,8 +58,11 @@ public class Dorsal implements Serializable,Comparable<Dorsal> {
             return ((Dorsal) obj).getDorsal().equals(this.dorsal);
         return false;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return dorsal + "= " + corredor;
+    }
     
     
 }

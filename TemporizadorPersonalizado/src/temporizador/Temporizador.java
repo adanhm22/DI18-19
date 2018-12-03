@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 public class Temporizador extends JLabel implements Serializable{
     private long tiempo;
     private List<TemporizadorListener> listeners;
-    private int numClicks;
+    private int numClicks,numClicksRestantes;
     private transient Timer timer;
     private transient MouseListener clickListener;
 
@@ -34,10 +34,13 @@ public class Temporizador extends JLabel implements Serializable{
         clickListener= new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                numClicks--;
-                if(numClicks>0)
+                if(timer!=null){
+                if(numClicksRestantes>0)
                 for (TemporizadorListener listener : listeners)
                     listener.onClick(numClicks, tiempo);
+                numClicksRestantes--;
+                }
+                
             }
 
             @Override
@@ -74,13 +77,16 @@ public class Temporizador extends JLabel implements Serializable{
     public void start(){
         tiempo=0l;
         timer = new Timer();
+        numClicksRestantes=numClicks;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(numClicks<=0){
+                if(numClicksRestantes<=0){
                     for (TemporizadorListener listener : listeners)
                         listener.finalizar(tiempo);
                     timer.cancel();
+                    timer=null;
+                    numClicksRestantes=numClicks;
                 }else{
                     setText(String.format("%s:%s:%s",
                             Math.round((tiempo>60*60*60)?tiempo%(60*60*60):tiempo/(60*60)),
@@ -89,7 +95,7 @@ public class Temporizador extends JLabel implements Serializable{
                     tiempo+=1l;
                 }
             }
-        }, 0, 100);
+        }, 0, 1000);
             
     }
     
