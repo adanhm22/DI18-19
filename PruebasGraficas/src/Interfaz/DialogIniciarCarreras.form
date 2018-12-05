@@ -30,22 +30,23 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="botonIniciar" min="-2" pref="142" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="temporizador1" min="-2" pref="52" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="botonUnidad" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="botonParticipantes" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="error" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="botonUnidad" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonIniciar" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="temporizador2" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonParticipantes" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace pref="31" max="32767" attributes="0"/>
           </Group>
@@ -62,9 +63,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="error" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="55" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="botonIniciar" min="-2" pref="46" max="-2" attributes="0"/>
-                  <Component id="temporizador1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="botonIniciar" alignment="1" min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="temporizador2" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -127,16 +128,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonUnidadActionPerformed"/>
       </Events>
     </Component>
-    <Component class="temporizador.Temporizador" name="temporizador1">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="Interfaz/Bundle.properties" key="DialogIniciarCarreras.temporizador1.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-        </Property>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Ubuntu" size="18" style="1"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="error">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -146,6 +137,8 @@
           <ResourceString bundle="Interfaz/Bundle.properties" key="DialogIniciarCarreras.error.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="temporizador.Temporizador" name="temporizador2">
     </Component>
   </SubComponents>
 </Form>

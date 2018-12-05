@@ -75,6 +75,9 @@ public class Controladora implements Serializable{
                 Exceptions.printStackTrace(ex);
                 CONTROLADORA=new Controladora();
             }
+            if(CONTROLADORA.conf.isTemporizadorActivado()){
+                CONTROLADORA.empezarTemporizador();
+            }
         }
         return CONTROLADORA;
     }
@@ -106,14 +109,7 @@ public class Controladora implements Serializable{
             }
     }
     
-    public void cambiarConfiguracion(Configuracion conf,Component componente) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
-        UIManager.setLookAndFeel(conf.getLookAndFeel().getClassName());
-        SwingUtilities.updateComponentTreeUI(componente);
-        if(this.rutina!=null){
-            this.rutina.cancel();
-            this.rutina=null;
-        }
-        if(conf.isTemporizadorActivado()){
+    private void empezarTemporizador(){
             this.rutina=new Timer();
             this.rutina.schedule(new TimerTask() {
                 @Override
@@ -123,8 +119,20 @@ public class Controladora implements Serializable{
                     } catch (IOException ex) {
                         Exceptions.printStackTrace(ex);
                     }
- }
+            }
             }, 0,conf.getMinutos()*60*1000);
+        
+    }
+    
+    public void cambiarConfiguracion(Configuracion conf,Component componente) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
+        UIManager.setLookAndFeel(conf.getLookAndFeel().getClassName());
+        SwingUtilities.updateComponentTreeUI(componente);
+        if(this.rutina!=null){
+            this.rutina.cancel();
+            this.rutina=null;
+        }
+        if(conf.isTemporizadorActivado()){
+            empezarTemporizador();
         }
         this.conf=conf;
     }

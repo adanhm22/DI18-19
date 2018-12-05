@@ -7,19 +7,16 @@ package Interfaz;
 
 import Modelo.CarreraSinFinalizar;
 import Modelo.Dorsal;
-import java.awt.Graphics;
-import java.io.BufferedOutputStream;
+import Modelo.Utiles;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import org.openide.util.Exceptions;
 import temporizador.TemporizadorListener;
 
@@ -42,12 +39,13 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         this.dorsales=new ArrayList<>();
         this.carreraEnCurso=carrera;
         comprobarCarrera();
-        this.temporizador1.addListeners(new TemporizadorListener() {
+        this.temporizador2.addListeners(new TemporizadorListener() {
             @Override
-            public void onClick(int restantes, float tiempo) {
+            public void onClick(int restantes, int horas,int minutos,int segundos) {
                 Dorsal dorsalInput;
                 List<Dorsal> dorsalest=new ArrayList<>(carreraEnCurso.getCorredores());
                 dorsalest.removeAll(dorsales);
+                int tiempo= (segundos+(60*minutos+(60*60*horas)));
                 do{
                 dorsalInput=(Dorsal) JOptionPane.showInputDialog(
                         DialogIniciarCarreras.this, "Corredor con "+tiempo+" segundos",
@@ -57,38 +55,46 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                 } while(dorsalInput==null);
                 Dorsal dorsalAniadir= 
                 new Dorsal(dorsalInput.getDorsal(), dorsalInput.getCorredor());
-                dorsalAniadir.setTiempo((int) tiempo);
+                dorsalAniadir.setTiempo(tiempo);
                 dorsales.add(dorsales.size(), dorsalAniadir);
                 }
-
-            
             @Override
-            public void finalizar(float tiempo) {
+            public void finalizar(int horas,int minutos,int segundos) {
                 dorsales.forEach((Dorsal d)->System.out.println(d.toString()));
-                if(ficheroExportado!=null)
-                    if(ficheroExportado.exists()&&ficheroExportado.isDirectory()){
-                        File ficheroCSV = new File(
-                                ficheroExportado.getAbsoluteFile()
-                                        +File.pathSeparator+"carrera "
-                                        +carreraEnCurso.getNombre()+".csv");
-                    try {
-                        FileWriter fos = new FileWriter(ficheroCSV);
-                        BufferedWriter bos = new BufferedWriter(fos);
-                        bos.write(carreraEnCurso.getNombre()+","
-                                +carreraEnCurso.getDireccion()+","
-                                +carreraEnCurso.getFechaCarrera());
-                        //está a la mitad
-                    } catch (FileNotFoundException ex) {
-                        Exceptions.printStackTrace(ex);
-                    } catch (IOException ex) {
-                        Exceptions.printStackTrace(ex);
+                if(ficheroExportado==null){
+                    ficheroExportado=new File("CarreraExportada");
+                    if(!ficheroExportado.exists()){
+                        ficheroExportado.mkdir();
                     }
-                        
+                }
+                    if(ficheroExportado.exists()&&ficheroExportado.isDirectory()){
+                        File ficheroTXT = new File(
+                        ficheroExportado.getAbsoluteFile()
+                        +File.separator+"carrera "
+                        +carreraEnCurso.getNombre()+".txt");
+                        try {
+                            FileWriter fos = new FileWriter(ficheroTXT);
+                            BufferedWriter bos = new BufferedWriter(fos);
+                            bos.write(carreraEnCurso.getNombre()+"\r\n");
+                            bos.write(Utiles.sdf.format(carreraEnCurso.getFechaCarrera())+"\r\n");
+                            for (Dorsal dorsal : dorsales) {
+                                bos.write(dorsal.getDorsal()+"\t"+dorsal.getTiempo()
+                                        +" segundos\t"+dorsal.getCorredor().getNombre()+"\r\n");
+                            }
+                            bos.flush();
+                            bos.close();
+                            fos.close();
+                            //está a la mitad
+                        } catch (FileNotFoundException ex) {
+                            Exceptions.printStackTrace(ex);
+                        } catch (IOException ex) {
+                            Exceptions.printStackTrace(ex);
+                        }  
                     }
                         
             }
         });
-        this.temporizador1.setNumClicks(carreraEnCurso.getCorredores().size());
+        this.temporizador2.setNumClicks(carreraEnCurso.getCorredores().size());
     }
 
     public void comprobarCarrera(){
@@ -98,7 +104,7 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         }else{
             error.setText("");
             this.botonIniciar.setEnabled(true);
-            this.temporizador1.setNumClicks(carreraEnCurso.getCorredores().size());
+            this.temporizador2.setNumClicks(carreraEnCurso.getCorredores().size());
         }
             
         
@@ -118,8 +124,8 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         botonParticipantes = new javax.swing.JButton();
         botonIniciar = new javax.swing.JButton();
         botonUnidad = new javax.swing.JButton();
-        temporizador1 = new temporizador.Temporizador();
         error = new javax.swing.JLabel();
+        temporizador2 = new temporizador.Temporizador();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -154,9 +160,6 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
             }
         });
 
-        temporizador1.setText(org.openide.util.NbBundle.getMessage(DialogIniciarCarreras.class, "DialogIniciarCarreras.temporizador1.text")); // NOI18N
-        temporizador1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-
         error.setForeground(new java.awt.Color(235, 20, 20));
         error.setText(org.openide.util.NbBundle.getMessage(DialogIniciarCarreras.class, "DialogIniciarCarreras.error.text")); // NOI18N
 
@@ -168,18 +171,18 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(temporizador1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1))
+                    .addComponent(error)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(botonUnidad)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botonUnidad)
+                            .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(botonParticipantes))
-                    .addComponent(error))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(temporizador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonParticipantes))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -192,9 +195,9 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(error)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(temporizador1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonIniciar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(temporizador2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonParticipantes)
@@ -213,7 +216,7 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
     private void botonUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonUnidadActionPerformed
         // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.showSaveDialog(this);
         ficheroExportado = chooser.getSelectedFile();
     }//GEN-LAST:event_botonUnidadActionPerformed
@@ -221,10 +224,10 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
     private void botonIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarActionPerformed
         // TODO add your handling code here:
         if(!botonIniciar.getText().equals("registrar llegada")){
-            this.temporizador1.start();
+            this.temporizador2.start();
             this.botonIniciar.setText("registrar llegada");
         }else{
-            this.temporizador1.registrarClick();
+            this.temporizador2.registrarLlegada();
         }
     }//GEN-LAST:event_botonIniciarActionPerformed
 
@@ -244,6 +247,6 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSpinner jSpinner1;
-    private temporizador.Temporizador temporizador1;
+    private temporizador.Temporizador temporizador2;
     // End of variables declaration//GEN-END:variables
 }

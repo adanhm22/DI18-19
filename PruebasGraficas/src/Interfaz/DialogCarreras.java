@@ -11,6 +11,7 @@ import Controladora.GestionCorredores;
 import Modelo.Carrera;
 import Modelo.CarreraSinFinalizar;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -30,14 +31,20 @@ public class DialogCarreras extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         comprobarCarreras();
+        
+        //poner imagen
+        imagen.setIcon(new ImageIcon("src/images/corredores.png"));
+        imagen.setText("");
     }
 
     public DialogCarreras(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        //poner imagen
+        imagen.setIcon(new ImageIcon("src/images/corredores.png"));
+        imagen.setText("");
         parent.dispose();
-        comprobarCarreras();
     }
 
     private void comprobarCarreras() {
@@ -84,7 +91,7 @@ public class DialogCarreras extends javax.swing.JDialog {
         botonIniciarCarrera = new javax.swing.JButton();
         botonConsultarCarrera = new javax.swing.JButton();
         botonInicio = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        imagen = new javax.swing.JLabel();
         errores = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -120,7 +127,8 @@ public class DialogCarreras extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.jLabel3.text")); // NOI18N
+        imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagen.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.imagen.text")); // NOI18N
 
         errores.setForeground(new java.awt.Color(206, 41, 41));
         errores.setText(org.openide.util.NbBundle.getMessage(DialogCarreras.class, "DialogCarreras.errores.text")); // NOI18N
@@ -132,6 +140,7 @@ public class DialogCarreras extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -145,8 +154,7 @@ public class DialogCarreras extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(75, 75, 75)
                                 .addComponent(jLabel1))
-                            .addComponent(botonInicio)
-                            .addComponent(jLabel3))
+                            .addComponent(botonInicio))
                         .addGap(0, 177, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -156,8 +164,8 @@ public class DialogCarreras extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(4, 4, 4)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(botonCarrera)
@@ -170,7 +178,7 @@ public class DialogCarreras extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonInicio)
                     .addComponent(errores))
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -211,7 +219,7 @@ public class DialogCarreras extends javax.swing.JDialog {
     private javax.swing.JButton botonIniciarCarrera;
     private javax.swing.JButton botonInicio;
     private javax.swing.JLabel errores;
+    private javax.swing.JLabel imagen;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,20 +11,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.openide.util.Exceptions;
@@ -44,7 +34,7 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
     public FramePantallaPrincipal() {
         initComponents();
         con = Controladora.getInstance();
-        Image icono = new ImageIcon(getClass().getResource("/images/icono.png")).getImage();
+        Image icono = new ImageIcon(getClass().getResource("/images/corredor.png")).getImage();
         setIconImage(icono);
         UIManager.installLookAndFeel(new UIManager.LookAndFeelInfo("JTatoo", com.jtattoo.plaf.smart.SmartLookAndFeel.class.getName()));
         for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -80,6 +70,11 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         } );
+        
+        //poner imagen
+        imagen.setIcon(new ImageIcon("src/images/portada.png"));
+        imagen.setText("");
+        
     }
     
     private void cambiarLookFeel (String name ){
@@ -110,7 +105,7 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         botonCarreras = new javax.swing.JButton();
         botonConfiguracion = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        imagen = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menu = new javax.swing.JMenu();
         lookfeel = new javax.swing.JMenu();
@@ -143,7 +138,8 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
 
         jLabel1.setText("<html><body>Hecho por Adán<br>2ª Dam Sotrondio</body></html>");
 
-        jLabel2.setText("imagen");
+        imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagen.setText("imagen");
 
         menu.setText("Menu");
 
@@ -166,28 +162,26 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonConfiguracion))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(botonCarreras)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
-                        .addComponent(botonCorredores))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(botonCorredores)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCorredores, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonCarreras, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -264,8 +258,8 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton botonConfiguracion;
     private javax.swing.JButton botonCorredores;
     private javax.swing.JMenuItem configuracion;
+    private javax.swing.JLabel imagen;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu lookfeel;
     private javax.swing.JMenu menu;

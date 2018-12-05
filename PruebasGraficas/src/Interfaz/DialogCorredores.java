@@ -7,6 +7,7 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Controladora.GestionCorredores;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,6 +23,9 @@ public class DialogCorredores extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         comprobarCorredores();
+        //poner imagen
+        imagen.setIcon(new ImageIcon("src/images/corredor.png"));
+        imagen.setText("");
     }
 
     
@@ -46,7 +50,7 @@ public class DialogCorredores extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        imagen = new javax.swing.JLabel();
         botonConsultarCorredores = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -58,7 +62,8 @@ public class DialogCorredores extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jLabel1.text")); // NOI18N
 
-        jLabel2.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.jLabel2.text")); // NOI18N
+        imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imagen.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.imagen.text")); // NOI18N
 
         botonConsultarCorredores.setText(org.openide.util.NbBundle.getMessage(DialogCorredores.class, "DialogCorredores.botonConsultarCorredores.text")); // NOI18N
         botonConsultarCorredores.addActionListener(new java.awt.event.ActionListener() {
@@ -98,13 +103,8 @@ public class DialogCorredores extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(86, 86, 86)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)))
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -116,7 +116,10 @@ public class DialogCorredores extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(errores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonConsultarCorredores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(botonConsultarCorredores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,8 +128,8 @@ public class DialogCorredores extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addComponent(imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
@@ -212,10 +215,10 @@ public class DialogCorredores extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonConsultarCorredores;
     private javax.swing.JLabel errores;
+    private javax.swing.JLabel imagen;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
