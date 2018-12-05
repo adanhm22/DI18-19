@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import Controladora.Controladora;
 import Modelo.CarreraSinFinalizar;
 import Modelo.Dorsal;
 import Modelo.Utiles;
@@ -54,13 +55,12 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                         dorsalest.get(0));
                 } while(dorsalInput==null);
                 Dorsal dorsalAniadir= 
-                new Dorsal(dorsalInput.getDorsal(), dorsalInput.getCorredor());
-                dorsalAniadir.setTiempo(tiempo);
+                new Dorsal(dorsalInput.getDorsal(), dorsalInput.getCorredor()
+                        ,horas,minutos,segundos);
                 dorsales.add(dorsales.size(), dorsalAniadir);
                 }
             @Override
             public void finalizar(int horas,int minutos,int segundos) {
-                dorsales.forEach((Dorsal d)->System.out.println(d.toString()));
                 if(ficheroExportado==null){
                     ficheroExportado=new File("CarreraExportada");
                     if(!ficheroExportado.exists()){
@@ -78,18 +78,22 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                             bos.write(carreraEnCurso.getNombre()+"\r\n");
                             bos.write(Utiles.sdf.format(carreraEnCurso.getFechaCarrera())+"\r\n");
                             for (Dorsal dorsal : dorsales) {
-                                bos.write(dorsal.getDorsal()+"\t"+dorsal.getTiempo()
-                                        +" segundos\t"+dorsal.getCorredor().getNombre()+"\r\n");
+                                bos.write(dorsal.getDorsal()+
+                                        "\t"+horas+":"+minutos+":"+segundos
+                                        +"\t"+dorsal.getCorredor().getNombre()+"\r\n");
                             }
                             bos.flush();
                             bos.close();
                             fos.close();
-                            //está a la mitad
                         } catch (FileNotFoundException ex) {
                             Exceptions.printStackTrace(ex);
                         } catch (IOException ex) {
                             Exceptions.printStackTrace(ex);
-                        }  
+                        }finally{
+                            Controladora.getInstance().finalizarCarrera(carreraEnCurso, dorsales);
+                            new DialogResultados(DialogIniciarCarreras.this, true, dorsales).setVisible(true);
+                        }
+                        
                     }
                         
             }
@@ -181,8 +185,8 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                             .addComponent(botonIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(temporizador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonParticipantes))))
+                            .addComponent(botonParticipantes)
+                            .addComponent(temporizador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

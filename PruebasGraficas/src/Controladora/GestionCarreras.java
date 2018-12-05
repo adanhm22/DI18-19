@@ -44,7 +44,7 @@ public class GestionCarreras implements Serializable{
 
     public boolean nuevaCarrera(String nombre, String direccion, Date fecha, int participantes) {
         CarreraSinFinalizar nueva = new CarreraSinFinalizar(nombre, direccion, fecha, participantes);
-        if(this.carrerasSinFinalizar.contains(nueva)){
+        if(this.carrerasSinFinalizar.contains(nueva)||this.carrerasFinalizadas.contains(nueva)){
             return false;
         }
         return this.carrerasSinFinalizar.add(nueva);

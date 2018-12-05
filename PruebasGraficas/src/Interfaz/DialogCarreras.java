@@ -73,6 +73,13 @@ public class DialogCarreras extends javax.swing.JDialog {
                 this.botonIniciarCarrera.setEnabled(true);
                 this.errores.setText("");
             }
+            if(gestionCarreras.getCarrerasSinFinalizar().isEmpty()){
+                this.botonIniciarCarrera.setEnabled(false);
+                this.errores.setText("no hay ninguna carrera sin Disponible");
+            }else{
+                this.botonIniciarCarrera.setEnabled(true);
+                this.errores.setText("");
+            }
         }
 
     }

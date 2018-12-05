@@ -14,9 +14,23 @@ import java.io.Serializable;
 public class Dorsal implements Serializable,Comparable<Dorsal> {
     private String dorsal;
     private Corredor corredor;
-    private int tiempo;
+    private int horas,minutos,segundos;
 
-    public String getDorsal() {
+  
+
+    public Dorsal(String dorsal, Corredor corredor) {
+        this.dorsal = dorsal;
+        this.corredor = corredor;
+    }
+
+    public Dorsal(String dorsal, Corredor corredor, int horas, int minutos, int segundos) {
+        this.dorsal = dorsal;
+        this.corredor = corredor;
+        this.horas = horas;
+        this.minutos = minutos;
+        this.segundos = segundos;
+    }
+      public String getDorsal() {
         return dorsal;
     }
 
@@ -32,17 +46,28 @@ public class Dorsal implements Serializable,Comparable<Dorsal> {
         this.corredor = corredor;
     }
 
-    public int getTiempo() {
-        return tiempo;
+    public int getHoras() {
+        return horas;
     }
 
-    public void setTiempo(int tiempo) {
-        this.tiempo = tiempo;
+    public void setHoras(int horas) {
+        this.horas = horas;
     }
 
-    public Dorsal(String dorsal, Corredor corredor) {
-        this.dorsal = dorsal;
-        this.corredor = corredor;
+    public int getMinutos() {
+        return minutos;
+    }
+
+    public void setMinutos(int minutos) {
+        this.minutos = minutos;
+    }
+
+    public int getSegundos() {
+        return segundos;
+    }
+
+    public void setSegundos(int segundos) {
+        this.segundos = segundos;
     }
 
     @Override

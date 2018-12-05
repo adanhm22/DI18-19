@@ -5,9 +5,7 @@
  */
 package Modelo;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -24,5 +22,11 @@ public class CarreraFinalizada extends Carrera{
     public String getNombreGanador() {
         return nombreGanador;
     }
+
+    public void setNombreGanador(String nombreGanador) {
+        this.nombreGanador = nombreGanador;
+    }
+    
+    
     
 }

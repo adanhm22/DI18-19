@@ -1,0 +1,4 @@
+finalizada
+05/12/2018
+1	0:0:7	corredor 1
+2	0:0:7	corredor 2

@@ -11,9 +11,10 @@ import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
 import Modelo.Corredor;
 import Modelo.Dorsal;
-import java.util.ArrayList;
+import Modelo.Utiles;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,8 +34,46 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
             this.botonAniadir.setEnabled(false);
             this.botonBorrar.setEnabled(false);
         }
-        Controladora.getInstance().rellenarTablaCorredores(tabla, carrera);
+        rellenarTabla();
         setLocationRelativeTo(null);
+    }
+    
+    public void rellenarTabla() {
+        if(carrera instanceof CarreraSinFinalizar)
+            rellenarTablaNoFinalizada();
+        else
+            rellenarTablaFinalizada();           
+    }
+    
+    private void rellenarTablaNoFinalizada(){
+        String[] columnas = {"dorsal","dni", "nombre","nacimiento"};
+        DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
+        String[] campos=new String[4];
+            for (Dorsal corredor : carrera.getCorredores()) {
+                campos[0]=corredor.getDorsal();
+                campos[1]=corredor.getCorredor().getDNI();
+                campos[2]=corredor.getCorredor().getNombre();
+                campos[3]=Utiles.sdf.format(corredor.getCorredor().getFechaNac());
+                dtm.addRow(campos);
+            }
+        tabla.setModel(dtm);
+    }
+    
+    private void rellenarTablaFinalizada() {
+        String[] columnas = {"puesto","dorsal","dni", "nombre","nacimiento"};
+        DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
+        String[] campos=new String[7];
+        int posicion=1;
+        for (Dorsal corredor : carrera.getCorredores()) {
+           campos[0]=String.valueOf(posicion);
+           posicion++;
+           campos[1]=corredor.getDorsal();
+           campos[2]=corredor.getCorredor().getDNI();
+           campos[3]=corredor.getCorredor().getNombre();
+           campos[4]=Utiles.sdf.format(corredor.getCorredor().getFechaNac());
+           dtm.addRow(campos);
+       }
+       tabla.setModel(dtm);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,7 +201,7 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
             }while(carrera.getCorredores().contains(new Dorsal(dorsal, corredorAniadir)));
             Dorsal dorsalAniadir=new Dorsal(dorsal, corredorAniadir);
             carrera.getCorredores().add(dorsalAniadir);
-        Controladora.getInstance().rellenarTablaCorredores(tabla, carrera);
+        rellenarTabla();
         }
         }else{
             JOptionPane.showMessageDialog(this, "no hay corredores para añadir");
@@ -185,7 +224,7 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(tabla.getSelectedRow()>=0){
             carrera.getCorredores().remove(tabla.getSelectedRow());
-            Controladora.getInstance().rellenarTablaCorredores(tabla, carrera);
+            rellenarTabla();
         }else{
              JOptionPane.showMessageDialog(this, "no has seleccionado corredor");
         }
@@ -202,4 +241,6 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
+
+    
 }

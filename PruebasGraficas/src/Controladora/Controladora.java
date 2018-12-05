@@ -5,7 +5,6 @@
  */
 package Controladora;
 
-import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
 import Modelo.Configuracion;
@@ -206,20 +205,15 @@ public class Controladora implements Serializable{
              tabla.setModel(dtm);
     }
 
-    public void rellenarTablaCorredores(JTable tabla, Carrera carrera) {
-        String[] columnas = {"dorsal","dni", "nombre", "direccion","telefono","nacimiento"};
-             DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-             String[] campos=new String[6];
-            for (Dorsal corredor : carrera.getCorredores()) {
-                campos[0]=corredor.getDorsal();
-                campos[1]=corredor.getCorredor().getDNI();
-                campos[2]=corredor.getCorredor().getNombre();
-                campos[3]=corredor.getCorredor().getDireccion();
-                campos[4]=String.valueOf(corredor.getCorredor().getTelef());
-                campos[5]=Utiles.sdf.format(corredor.getCorredor().getFechaNac());
-                dtm.addRow(campos);
-            }
-            tabla.setModel(dtm);
+    
+    
+    public void finalizarCarrera(CarreraSinFinalizar carrera, List<Dorsal> dorsales){
+        this.gestionCarreras.getCarrerasSinFinalizar().remove(carrera);
+        CarreraFinalizada carreraFinalizada = new CarreraFinalizada(carrera.getNombre()
+                , carrera.getNombre(), carrera.getFechaCarrera(), carrera.getNumeroParticipantes());
+        carreraFinalizada.setCorredores(dorsales);
+        carreraFinalizada.setNombreGanador(dorsales.get(0).getCorredor().getNombre());
+        this.gestionCarreras.getCarrerasFinalizadas().add(carreraFinalizada);
     }
     
 
