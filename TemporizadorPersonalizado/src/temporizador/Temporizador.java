@@ -8,11 +8,8 @@ package temporizador;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +21,7 @@ import javax.swing.JLabel;
  */
 public class Temporizador extends JLabel implements Serializable{
     private long tiempo;
+    private int horas,segundos,minutos;
     private List<TemporizadorListener> listeners;
     private int numClicks,numClicksRestantes;
     private transient Timer timer;
@@ -35,10 +33,18 @@ public class Temporizador extends JLabel implements Serializable{
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(timer!=null){
-                if(numClicksRestantes>0)
-                for (TemporizadorListener listener : listeners)
-                    listener.onClick(numClicks, tiempo);
-                numClicksRestantes--;
+                    numClicksRestantes--;
+                    
+                    for (TemporizadorListener listener : listeners)
+                            listener.onClick(numClicksRestantes, horas,minutos,segundos);
+                    if(numClicksRestantes<=0){
+                        for (TemporizadorListener listener : listeners)
+                            listener.finalizar(horas,minutos,segundos);
+                        timer.cancel();
+                        timer=null;
+                        numClicksRestantes=numClicks;
+                    }
+                        
                 }
                 
             }
@@ -56,6 +62,7 @@ public class Temporizador extends JLabel implements Serializable{
             public void mouseExited(MouseEvent e) {}
         };
         addMouseListener(clickListener);
+        setText("0:0:0");
     }
 
     public int getNumClicks() {
@@ -75,32 +82,36 @@ public class Temporizador extends JLabel implements Serializable{
     }
     
     public void start(){
-        tiempo=0l;
+        horas=0;
+        minutos=0;
+        segundos=0;
+        if(timer!=null)
+            timer.cancel();
         timer = new Timer();
         numClicksRestantes=numClicks;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(numClicksRestantes<=0){
-                    for (TemporizadorListener listener : listeners)
-                        listener.finalizar(tiempo);
-                    timer.cancel();
-                    timer=null;
-                    numClicksRestantes=numClicks;
-                }else{
-                    setText(String.format("%s:%s:%s",
-                            Math.round((tiempo>60*60*60)?tiempo%(60*60*60):tiempo/(60*60)),
-                            Math.round((tiempo>60*60)?tiempo%(60*60):tiempo/(60)),
-                            Math.round(tiempo%60)));
-                    tiempo+=1l;
-                }
+                setText(String.format("%d:%d:%d",horas,minutos,segundos));
+                segundos+=1;
+                formatearTiempo();
             }
         }, 0, 1000);
-            
     }
     
-    public void registrarClick(){
+    public void registrarLlegada(){
         clickListener.mouseClicked(null);
+    }
+    
+    private void formatearTiempo(){
+        if(segundos>59){
+            minutos++;
+            segundos=0;
+        }
+        if(minutos>59){
+            horas++;
+            minutos=0;
+        }
     }
     
 }

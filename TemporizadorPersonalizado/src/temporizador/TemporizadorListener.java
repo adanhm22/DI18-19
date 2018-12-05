@@ -12,6 +12,6 @@ import java.io.Serializable;
  * @author alumnop
  */
 public interface TemporizadorListener extends Serializable{
-    public void onClick(int restantes,float tiempo);
-    public void finalizar(float tiempo);
+    public void onClick(int restantes,int horas,int segundos,int minutos);
+    public void finalizar(int horas,int segundos,int minutos);
 }
