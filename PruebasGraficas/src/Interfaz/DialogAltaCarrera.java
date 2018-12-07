@@ -8,12 +8,15 @@ package Interfaz;
 import Controladora.Controladora;
 import Controladora.GestionCarreras;
 import Modelo.Carrera;
+import java.net.MalformedURLException;
 import java.util.Date;
+import javax.help.HelpSetException;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
 import org.netbeans.validation.api.ui.ValidationGroup;
+import org.openide.util.Exceptions;
 
 /**
  *

@@ -12,9 +12,12 @@ import Modelo.CarreraSinFinalizar;
 import Modelo.Corredor;
 import Modelo.Dorsal;
 import Modelo.Utiles;
+import java.net.MalformedURLException;
 import java.util.List;
+import javax.help.HelpSetException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -36,6 +39,12 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
         }
         rellenarTabla();
         setLocationRelativeTo(null);
+        setTitle("participantes de la carrera "+carrera.getNombre());
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "participantes");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
     
     public void rellenarTabla() {

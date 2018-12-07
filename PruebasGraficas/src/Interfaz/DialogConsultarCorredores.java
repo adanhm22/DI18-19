@@ -11,8 +11,11 @@ import Modelo.Carrera;
 import Modelo.Corredor;
 import Modelo.CorredorException;
 import Modelo.Dorsal;
+import java.net.MalformedURLException;
 import java.util.List;
+import javax.help.HelpSetException;
 import javax.swing.JOptionPane;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,6 +31,12 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         rellenarTabla();
+        setTitle("consultarCorredores");
+                try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "consultar_corredores");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     private void rellenarTabla(){

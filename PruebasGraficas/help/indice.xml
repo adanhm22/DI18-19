@@ -1,0 +1,9 @@
+<index version="1.0">
+	<indexitem text="Pantalla principal" target="index"/>
+	<indexitem text="Gestion corredores" target="gestion_corredores"/>
+	<indexitem text="Consultar corredores" target="consultar_corredores"/>
+	<indexitem text="Gestion carreras" target="gestion_carreras"/>
+	<indexitem text="Iniciar carrera" target="iniciar_carrera"/>
+	<indexitem text="Consultar carrera" target="consultar_carrera"/>
+	<indexitem text="participantes" target="participantes"/>
+</index>

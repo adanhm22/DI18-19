@@ -44,33 +44,19 @@ public class DialogAltaCorredor extends javax.swing.JDialog {
                     botonCrearCorredor.setEnabled(false);
             }
         });
+        setTitle("alta corredor");
     }
     
     public DialogAltaCorredor(java.awt.Dialog parent, boolean modal,Corredor corredor) {
-        super(parent, modal);
-        initComponents();
-        setLocationRelativeTo(null);
-        this.botonCrearCorredor.setEnabled(false);
-        this.botonCrearCorredor.setText("modificar");
-        ValidationGroup grupo = validation.getValidationGroup();
-        grupo.add(this.dni, StringValidators.REQUIRE_NON_EMPTY_STRING);
-        grupo.add(this.nombre, StringValidators.REQUIRE_NON_EMPTY_STRING);
-        grupo.add(this.telefono,new Integer_no_negativo_no_requerido());
-        validation.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if(validation.getProblem()==null)
-                    botonCrearCorredor.setEnabled(true);
-                else
-                    botonCrearCorredor.setEnabled(false);
-            }
-        });
+        this(parent,modal);
         this.dni.setText(corredor.getDNI());
         this.nombre.setText(corredor.getNombre());
         this.direccion.setText(corredor.getDireccion());
         this.telefono.setText(String.valueOf(corredor.getTelef()));
         this.fecha.setValue(corredor.getFechaNac());
         this.corredorModificar=corredor;
+        this.botonCrearCorredor.setText("modificar");
+        setTitle("modificando corredor "+corredor.getNombre());
     }
 
     /**
@@ -183,9 +169,9 @@ public class DialogAltaCorredor extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(validation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(dni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,7 +191,7 @@ public class DialogAltaCorredor extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCrearCorredor)
                     .addComponent(botonLimpiar))

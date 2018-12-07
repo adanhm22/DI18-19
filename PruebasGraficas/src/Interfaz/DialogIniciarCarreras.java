@@ -14,8 +14,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.help.HelpSetException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.openide.util.Exceptions;
@@ -99,6 +101,12 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
             }
         });
         this.temporizador2.setNumClicks(carreraEnCurso.getCorredores().size());
+        setTitle("iniciar carrera "+this.carreraEnCurso.getNombre());
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "iniciar_carrera");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     public void comprobarCarrera(){

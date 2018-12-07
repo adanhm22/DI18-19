@@ -1,0 +1,13 @@
+<toc version="1.0">
+<tocitem text="Pantalla principal" target="index">
+	<tocitem text="Gestion corredores" target="gestion_corredores">
+		<tocitem text="Consultar corredores" target="consultar_corredores"/>
+	</tocitem>
+	<tocitem text="Gestion carreras" target="gestion_carreras">
+		<tocitem text="iniciar carrera" target="iniciar_carrera"/>
+		<tocitem text="Consultar carreras" target="consultar_carrera">
+			<tocitem text="participantes" target="participantes"/>
+		</tocitem>
+	</tocitem>
+</tocitem>
+</toc>

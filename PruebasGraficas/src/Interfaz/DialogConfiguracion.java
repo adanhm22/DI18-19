@@ -29,11 +29,17 @@ public class DialogConfiguracion extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         lookAndFeelInfo =UIManager.getInstalledLookAndFeels();
-        DefaultComboBoxModel combo = new DefaultComboBoxModel(lookAndFeelInfo);
+        String[] nombresLookAndFeel= new String[lookAndFeelInfo.length];
+        for (int i = 0; i < lookAndFeelInfo.length; i++) {
+            nombresLookAndFeel[i] = lookAndFeelInfo[i].getName();
+        }
+        DefaultComboBoxModel combo = new DefaultComboBoxModel(nombresLookAndFeel);
         conf=Controladora.getInstance().getConf();
         activado.setSelected(conf.isTemporizadorActivado());
         minutos.setValue(conf.getMinutos());
         minutos.setEnabled(conf.isTemporizadorActivado());
+        lookFeel.setModel(combo);
+        setTitle("configuracion");
     }
 
     /**

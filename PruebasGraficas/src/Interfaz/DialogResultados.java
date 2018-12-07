@@ -26,6 +26,7 @@ public class DialogResultados extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.dorsales=dorsales;
         rellenarTabla();
+        setTitle("resultados de la carrera");
     }
     
     private void rellenarTabla(){

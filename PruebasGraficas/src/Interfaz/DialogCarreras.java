@@ -10,11 +10,14 @@ import Controladora.GestionCarreras;
 import Controladora.GestionCorredores;
 import Modelo.Carrera;
 import Modelo.CarreraSinFinalizar;
+import java.net.MalformedURLException;
 import java.util.List;
+import javax.help.HelpSetException;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.openide.util.Exceptions;
 import sun.swing.SwingAccessor;
 
 /**
@@ -29,24 +32,32 @@ public class DialogCarreras extends javax.swing.JDialog {
     public DialogCarreras(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
-        comprobarCarreras();
-        
-        //poner imagen
-        imagen.setIcon(new ImageIcon("src/images/corredores.png"));
-        imagen.setText("");
+        iniciarDialog();
     }
 
     public DialogCarreras(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        iniciarDialog();
+        parent.dispose();
+    }
+
+    private void iniciarDialog() {
         setLocationRelativeTo(null);
         //poner imagen
         imagen.setIcon(new ImageIcon("src/images/corredores.png"));
         imagen.setText("");
-        parent.dispose();
+        comprobarCarreras();
+        setTitle("Gestion de carreras");
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "gestion_carreras");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
+    
+    
     private void comprobarCarreras() {
 
         

@@ -7,7 +7,10 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Controladora.GestionCorredores;
+import java.net.MalformedURLException;
+import javax.help.HelpSetException;
 import javax.swing.ImageIcon;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -26,6 +29,12 @@ public class DialogCorredores extends javax.swing.JDialog {
         //poner imagen
         imagen.setIcon(new ImageIcon("src/images/corredor.png"));
         imagen.setText("");
+        setTitle("Gestion de corredores");
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "gestion_corredores");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     

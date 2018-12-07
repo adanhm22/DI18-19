@@ -11,8 +11,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
@@ -74,7 +80,12 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         //poner imagen
         imagen.setIcon(new ImageIcon("src/images/portada.png"));
         imagen.setText("");
-        
+        setTitle("Pantalla principal");
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "index");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
     
     private void cambiarLookFeel (String name ){
@@ -92,6 +103,7 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         }
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

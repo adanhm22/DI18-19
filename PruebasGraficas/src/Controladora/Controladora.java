@@ -21,9 +21,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -216,5 +221,13 @@ public class Controladora implements Serializable{
         this.gestionCarreras.getCarrerasFinalizadas().add(carreraFinalizada);
     }
     
+    
+    public void aniadirAyuda (Component componente,String ayuda) throws HelpSetException, MalformedURLException{
+        File fichero = new File("help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+            HelpSet helpset = new HelpSet(getClass().getClassLoader(), hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            hb.enableHelpKey(componente, ayuda, helpset);
+    }
 
 }

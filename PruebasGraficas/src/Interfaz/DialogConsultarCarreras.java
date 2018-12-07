@@ -10,7 +10,10 @@ import Controladora.GestionCarreras;
 import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import java.net.MalformedURLException;
+import javax.help.HelpSetException;
 import javax.swing.JOptionPane;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,6 +31,12 @@ public class DialogConsultarCarreras extends javax.swing.JDialog {
         this.botonSTerminar.setEnabled(false);
         setLocationRelativeTo(null);
         rellenarTabla(false);
+        setTitle("consultar carreras");
+        try {
+            Controladora.getInstance().aniadirAyuda(getContentPane(), "consultar_carrera");
+        } catch (HelpSetException | MalformedURLException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     private void rellenarTabla(boolean terminada){

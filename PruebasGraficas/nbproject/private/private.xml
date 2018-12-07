@@ -4,9 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group/>
         <group name="DI">
-            <file>file:/home/adan/Documentos/clase/DI18-19/PruebasGraficas/src/Interfaz/DialogCarreras.java</file>
-            <file>file:/home/adan/Documentos/clase/DI18-19/PruebasGraficas/src/Modelo/Dorsal.java</file>
-            <file>file:/home/adan/Documentos/clase/DI18-19/PruebasGraficas/src/Interfaz/DialogIniciarCarreras.java</file>
+            <file>file:/home/adan/Documentos/clase/DI18-19/PruebasGraficas/src/Controladora/GestionCarreras.java</file>
+            <file>file:/home/adan/Documentos/clase/DI18-19/PruebasGraficas/src/Interfaz/DialogAltaCarrera.java</file>
         </group>
     </open-files>
 </project-private>

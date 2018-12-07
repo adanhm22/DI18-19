@@ -1,0 +1,9 @@
+<map version="1.0">
+   <mapID target="index" url="html/principal.html" />
+   <mapID target="gestion_corredores" url="html/gestionCorredores.html" />
+   <mapID target="gestion_carreras" url="html/gestionCarreras.html" />
+   <mapID target="consultar_corredores" url="html/consultarCorredores.html" />
+   <mapID target="iniciar_carrera" url="html/iniciarCarrera.html" />
+   <mapID target="consultar_carrera" url="html/consultarCarreras.html" />
+   <mapID target="participantes" url="html/participantes.html" />
+</map>
