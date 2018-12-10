@@ -5,6 +5,7 @@
  */
 package temporizador;
 
+import Modelo.Dorsal;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,6 @@ import java.io.Serializable;
  * @author alumnop
  */
 public interface TemporizadorListener extends Serializable{
-    public void onClick(int restantes,int horas,int segundos,int minutos);
-    public void finalizar(int horas,int segundos,int minutos);
+    public void onClick(Dorsal dorsal,int restantes,int horas,int minutos,int segundos);
+    public void finalizar(int horas,int minutos,int segundos);
 }

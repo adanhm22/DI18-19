@@ -5,6 +5,7 @@
  */
 package temporizador;
 
+import Modelo.Dorsal;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
@@ -14,16 +15,18 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author alumnop
  */
 public class Temporizador extends JLabel implements Serializable{
-    private long tiempo;
-    private int horas,segundos,minutos;
+    
+    private int horas,minutos,segundos;
     private List<TemporizadorListener> listeners;
-    private int numClicks,numClicksRestantes;
+    private List<Dorsal> dorsales;
+    private int numClicks;
     private transient Timer timer;
     private transient MouseListener clickListener;
 
@@ -32,21 +35,29 @@ public class Temporizador extends JLabel implements Serializable{
         clickListener= new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(timer!=null){
-                    numClicksRestantes--;
-                    
-                    for (TemporizadorListener listener : listeners)
-                            listener.onClick(numClicksRestantes, horas,minutos,segundos);
-                    if(numClicksRestantes<=0){
-                        for (TemporizadorListener listener : listeners)
-                            listener.finalizar(horas,minutos,segundos);
-                        timer.cancel();
-                        timer=null;
-                        numClicksRestantes=numClicks;
-                    }
-                        
-                }
                 
+                if(numClicks>0){
+                    numClicks--;
+                    Dorsal dorsal = null;
+                    int tiempo= (segundos+(60*minutos+(60*60*horas)));
+                    if(!dorsales.isEmpty()){
+                        do{
+                dorsal=(Dorsal) JOptionPane.showInputDialog(
+                        null, "Corredor con "+tiempo+" segundos",
+                        null, JOptionPane.QUESTION_MESSAGE, null,
+                        dorsales.toArray(),
+                        dorsales.get(0));
+                } while(dorsal==null);
+                        dorsales.remove(dorsal);
+                    }
+                for (TemporizadorListener listener : listeners)
+                    listener.onClick(dorsal,numClicks, horas,minutos,segundos);
+                if(numClicks<=0){
+                    for (TemporizadorListener listener : listeners)
+                        listener.finalizar(horas,minutos,segundos);
+                    timer.cancel();
+                }
+                }
             }
 
             @Override
@@ -63,6 +74,7 @@ public class Temporizador extends JLabel implements Serializable{
         };
         addMouseListener(clickListener);
         setText("0:0:0");
+        dorsales=new ArrayList<>();
     }
 
     public int getNumClicks() {
@@ -80,23 +92,29 @@ public class Temporizador extends JLabel implements Serializable{
     public List<TemporizadorListener> getListeners() {
         return listeners;
     }
+
+    public List<Dorsal> getDorsales() {
+        return dorsales;
+    }
+
+    public void setDorsales(List<Dorsal> dorsales) {
+        this.dorsales = new ArrayList<>(dorsales);
+    }
     
     public void start(){
         horas=0;
-        minutos=0;
         segundos=0;
-        if(timer!=null)
-            timer.cancel();
+        minutos=0;
         timer = new Timer();
-        numClicksRestantes=numClicks;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                setText(String.format("%d:%d:%d",horas,minutos,segundos));
-                segundos+=1;
-                formatearTiempo();
+                    setText(String.format("%d:%d:%d",horas,minutos,segundos));
+                    segundos+=1;
+                    formatearTiempo();
             }
         }, 0, 1000);
+            
     }
     
     public void registrarLlegada(){
@@ -112,6 +130,7 @@ public class Temporizador extends JLabel implements Serializable{
             horas++;
             minutos=0;
         }
+            
     }
     
 }
