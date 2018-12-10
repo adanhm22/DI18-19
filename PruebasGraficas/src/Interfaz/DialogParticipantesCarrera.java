@@ -207,9 +207,14 @@ public class DialogParticipantesCarrera extends javax.swing.JDialog {
             dorsal = JOptionPane.showInputDialog("introduce dorsal");
             if(carrera.getCorredores().contains(new Dorsal(dorsal, corredorAniadir)))
                 JOptionPane.showMessageDialog(this, "el dorsal ya existe");
+            
             }while(carrera.getCorredores().contains(new Dorsal(dorsal, corredorAniadir)));
-            Dorsal dorsalAniadir=new Dorsal(dorsal, corredorAniadir);
+            if(dorsal!=null){
+                Dorsal dorsalAniadir=new Dorsal(dorsal, corredorAniadir);
             carrera.getCorredores().add(dorsalAniadir);
+            JOptionPane.showMessageDialog(this, "se ha añadido el corredor");
+            }
+            
         rellenarTabla();
         }
         }else{

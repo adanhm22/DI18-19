@@ -206,9 +206,11 @@ public class DialogConsultarCorredores extends javax.swing.JDialog {
             if(carreraAniadir.getCorredores().contains(new Dorsal(dorsal, corredor)))
                 JOptionPane.showMessageDialog(this, "el dorsal ya existe");
             }while(carreraAniadir.getCorredores().contains(new Dorsal(dorsal, corredor)));
+            if(dorsal!=null){
             Dorsal dorsalAniadir=new Dorsal(dorsal, corredor);
             carreraAniadir.getCorredores().add(dorsalAniadir);
             JOptionPane.showMessageDialog(this, "Se ha añadido el corredor a la carrera");
+            }
             rellenarTabla();
             }
         }

@@ -44,25 +44,17 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         comprobarCarrera();
         this.temporizador2.addListeners(new TemporizadorListener() {
             @Override
-            public void onClick(int restantes, int horas,int minutos,int segundos) {
-                Dorsal dorsalInput;
-                List<Dorsal> dorsalest=new ArrayList<>(carreraEnCurso.getCorredores());
-                dorsalest.removeAll(dorsales);
-                int tiempo= (segundos+(60*minutos+(60*60*horas)));
-                do{
-                dorsalInput=(Dorsal) JOptionPane.showInputDialog(
-                        DialogIniciarCarreras.this, "Corredor con "+tiempo+" segundos",
-                        null, JOptionPane.QUESTION_MESSAGE, null,
-                        dorsalest.toArray(),
-                        dorsalest.get(0));
-                } while(dorsalInput==null);
+            public void onClick(Modelo.Dorsal dorsal, int restantes, int horas, int minutos, int segundos) {
+                 
+                
                 Dorsal dorsalAniadir= 
-                new Dorsal(dorsalInput.getDorsal(), dorsalInput.getCorredor()
+                new Dorsal(dorsal.getDorsal(), dorsal.getCorredor()
                         ,horas,minutos,segundos);
                 dorsales.add(dorsales.size(), dorsalAniadir);
-                }
+            }
             @Override
             public void finalizar(int horas,int minutos,int segundos) {
+                //escribe la carrera en el fichero
                 if(ficheroExportado==null){
                     ficheroExportado=new File("CarreraExportada");
                     if(!ficheroExportado.exists()){
@@ -81,7 +73,7 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                             bos.write(Utiles.sdf.format(carreraEnCurso.getFechaCarrera())+"\r\n");
                             for (Dorsal dorsal : dorsales) {
                                 bos.write(dorsal.getDorsal()+
-                                        "\t"+horas+":"+minutos+":"+segundos
+                                        "\t"+dorsal.getHoras()+":"+dorsal.getMinutos()+":"+dorsal.getSegundos()
                                         +"\t"+dorsal.getCorredor().getNombre()+"\r\n");
                             }
                             bos.flush();
@@ -99,6 +91,8 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
                     }
                         
             }
+            
+            
         });
         this.temporizador2.setNumClicks(carreraEnCurso.getCorredores().size());
         setTitle("iniciar carrera "+this.carreraEnCurso.getNombre());
@@ -107,6 +101,8 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         } catch (HelpSetException | MalformedURLException ex) {
             Exceptions.printStackTrace(ex);
         }
+        
+        this.temporizador2.setDorsales(carreraEnCurso.getCorredores());
     }
 
     public void comprobarCarrera(){
@@ -238,6 +234,7 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         if(!botonIniciar.getText().equals("registrar llegada")){
             this.temporizador2.start();
             this.botonIniciar.setText("registrar llegada");
+            this.botonParticipantes.setEnabled(false);
         }else{
             this.temporizador2.registrarLlegada();
         }
@@ -247,6 +244,7 @@ public class DialogIniciarCarreras extends javax.swing.JDialog {
         // TODO add your handling code here:
         new DialogParticipantesCarrera(this, true, carreraEnCurso).setVisible(true);
         comprobarCarrera();
+        this.temporizador2.setDorsales(carreraEnCurso.getCorredores());
     }//GEN-LAST:event_botonParticipantesActionPerformed
 
 

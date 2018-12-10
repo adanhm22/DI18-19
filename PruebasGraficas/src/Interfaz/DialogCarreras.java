@@ -216,6 +216,7 @@ public class DialogCarreras extends javax.swing.JDialog {
                 JOptionPane.QUESTION_MESSAGE, null,carreras.toArray(),carreras.get(0));
         if(carreraSinFinalizar!=null)
             new DialogIniciarCarreras(this, true, (CarreraSinFinalizar) carreraSinFinalizar).setVisible(true);
+        comprobarCarreras();
     }//GEN-LAST:event_botonIniciarCarreraActionPerformed
 
     private void botonConsultarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarCarreraActionPerformed
