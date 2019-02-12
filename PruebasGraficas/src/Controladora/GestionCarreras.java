@@ -61,7 +61,10 @@ public class GestionCarreras implements Serializable{
         List<Corredor> corredoresLibre =
                 new ArrayList<>(Controladora.getInstance()
                         .getGestionCorredores().getCorredores());
-        corredoresCarrera.forEach((Dorsal dorsal)->corredoresLibre.remove(dorsal.getCorredor()));
+        for (Dorsal dorsal : corredoresCarrera) {
+            corredoresLibre.remove(dorsal.getCorredor());
+        }
+      //  corredoresCarrera.forEach((Dorsal dorsal)->corredoresLibre.remove(dorsal.getCorredor()));
         
         return corredoresLibre;
     }

@@ -9,6 +9,7 @@ import Controladora.Controladora;
 import Modelo.Configuracion;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -43,10 +44,15 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         Image icono = new ImageIcon(getClass().getResource("/images/corredor.png")).getImage();
         setIconImage(icono);
         UIManager.installLookAndFeel(new UIManager.LookAndFeelInfo("JTatoo", com.jtattoo.plaf.smart.SmartLookAndFeel.class.getName()));
-        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             JMenuItem ji = new JMenuItem(info.getName());
             this.lookfeel.add(ji);
-            ji.addActionListener((ActionEvent e) -> cambiarLookFeel(info.getName()));
+            ji.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   cambiarLookFeel(info.getName());
+                }
+            });
         }
         setLocationRelativeTo(null);
         addWindowListener(new WindowListener() {
@@ -113,6 +119,7 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
         botonCorredores = new javax.swing.JButton();
         botonCarreras = new javax.swing.JButton();
         botonConfiguracion = new javax.swing.JButton();
@@ -122,6 +129,13 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         menu = new javax.swing.JMenu();
         lookfeel = new javax.swing.JMenu();
         configuracion = new javax.swing.JMenuItem();
+        jMenuInformes = new javax.swing.JMenu();
+        itemCarrerasNoFinalizadas = new javax.swing.JMenuItem();
+        itemInformeCarrera = new javax.swing.JMenuItem();
+        itemClasificacionCarrera = new javax.swing.JMenuItem();
+        itemInformeCorredor = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -165,6 +179,22 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
             }
         });
         menu.add(configuracion);
+
+        jMenuInformes.setText("Informes");
+
+        itemCarrerasNoFinalizadas.setText("Lista de carreras no finalizadas");
+        jMenuInformes.add(itemCarrerasNoFinalizadas);
+
+        itemInformeCarrera.setText("informe sobre carrera");
+        jMenuInformes.add(itemInformeCarrera);
+
+        itemClasificacionCarrera.setText("clasificacion de una carrera");
+        jMenuInformes.add(itemClasificacionCarrera);
+
+        itemInformeCorredor.setText("informe sobre corredor");
+        jMenuInformes.add(itemInformeCorredor);
+
+        menu.add(jMenuInformes);
 
         jMenuBar1.add(menu);
 
@@ -271,8 +301,14 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton botonCorredores;
     private javax.swing.JMenuItem configuracion;
     private javax.swing.JLabel imagen;
+    private javax.swing.JMenuItem itemCarrerasNoFinalizadas;
+    private javax.swing.JMenuItem itemClasificacionCarrera;
+    private javax.swing.JMenuItem itemInformeCarrera;
+    private javax.swing.JMenuItem itemInformeCorredor;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuInformes;
     private javax.swing.JMenu lookfeel;
     private javax.swing.JMenu menu;
     // End of variables declaration//GEN-END:variables

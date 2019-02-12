@@ -14,11 +14,8 @@ import java.net.MalformedURLException;
 import java.util.List;
 import javax.help.HelpSetException;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import org.openide.util.Exceptions;
-import sun.swing.SwingAccessor;
 
 /**
  *
