@@ -40,6 +40,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Lista de carreras no finalizadas"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCarrerasNoFinalizadasActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="itemInformeCarrera">
                   <Properties>

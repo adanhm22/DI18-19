@@ -6,7 +6,9 @@
 package Interfaz;
 
 import Controladora.Controladora;
+import Controladora.ControladoraReportes;
 import Modelo.Configuracion;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +23,12 @@ import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import net.sf.jasperreports.engine.JRException;
 import org.openide.util.Exceptions;
 
 /**
@@ -183,6 +188,11 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         jMenuInformes.setText("Informes");
 
         itemCarrerasNoFinalizadas.setText("Lista de carreras no finalizadas");
+        itemCarrerasNoFinalizadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCarrerasNoFinalizadasActionPerformed(evt);
+            }
+        });
         jMenuInformes.add(itemCarrerasNoFinalizadas);
 
         itemInformeCarrera.setText("informe sobre carrera");
@@ -256,6 +266,23 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
          new DialogConfiguracion(this, true).setVisible(true);
     }//GEN-LAST:event_configuracionActionPerformed
+
+    private void itemCarrerasNoFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCarrerasNoFinalizadasActionPerformed
+        // TODO add your handling code here:
+        ControladoraReportes cr = new ControladoraReportes();
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.showSaveDialog(this);
+        File ficheroSeleccionado = chooser.getSelectedFile();
+        if(ficheroSeleccionado!=null)
+            try {
+                cr.reportCarrerasSinFinalizar(ficheroSeleccionado);
+                Desktop.getDesktop().open(ficheroSeleccionado);
+        } catch (IOException|JRException ex) {
+            JOptionPane.showMessageDialog(this, "a ocurrido un error: \n"
+                    +ex.getMessage(),"error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_itemCarrerasNoFinalizadasActionPerformed
 
     /**
      * @param args the command line arguments
