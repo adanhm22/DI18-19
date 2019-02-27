@@ -24,11 +24,16 @@ Section
 	writeUninstaller "$INSTDIR\uninstall.exe"
 	
 	#añadimos los archivos que queremos en la instalación
-	File /r "../help"
-	File /r "../jasper"
-	File /r "../jasper"
-	File "../controladora.dat"
+	File /r "..\help"
+	File /r "..\jasper"
+	File "..\controladora.dat"
+	File "..\dist\PruebasGraficas.jar"
+	File /r "..\dist\lib"
 	
+	#creamos los enlaces directos
+	createShortCut "$SMPROGRAMS\GestionCarreras\Desinstalar.lnk" "$INSTDIR\uninstall.exe"
+	createShortCut "$SMPROGRAMS\GestionCarreras\Gestion.lnk" "$INSTDIR\uninstall.exe"
+ 	
 	#añadimos la información del registro
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\GestionCarreras" \
                  "DisplayName" "GestionCarreras"
@@ -47,6 +52,16 @@ Section "uninstall"
 	
 	#borramos cada archivo individual
 	delete "$INSTDIR\test.txt"
+	RmDir /r "$INSTDIR\help"
+	RmDir /r "$INSTDIR\jasper"
+	delete "$INSTDIR\controladora.dat"
+	delete "$INSTDIR\PruebasGraficas.jar"
+	RmDir /r "$INSTDIR\lib"
+	
+	#borramos los enlaces directos
+	delete "$SMPROGRAMS\GestionCarreras\Gestion.lnk"
+	delete "$SMPROGRAMS\GestionCarreras\Desinstalar.lnk"
+	RmDir "$SMPROGRAMS\GestionCarreras"
 	
 	#borramos la carpeta de instalación
 	RmDir "$INSTDIR"
