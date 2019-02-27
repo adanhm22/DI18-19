@@ -27,12 +27,14 @@ Section
 	File /r "..\help"
 	File /r "..\jasper"
 	File "..\controladora.dat"
-	File "..\dist\PruebasGraficas.jar"
+	File "..\dist\CorredoresGrafico.jar"
 	File /r "..\dist\lib"
 	
 	#creamos los enlaces directos
+	CreateDirectory "$SMPROGRAMS\GestionCarreras"
 	createShortCut "$SMPROGRAMS\GestionCarreras\Desinstalar.lnk" "$INSTDIR\uninstall.exe"
-	createShortCut "$SMPROGRAMS\GestionCarreras\Gestion.lnk" "$INSTDIR\uninstall.exe"
+	createShortCut "$SMPROGRAMS\GestionCarreras\Gestion.lnk" "$INSTDIR\CorredoresGrafico.jar"
+	createShortCut "$DESKTOP\GestionCorredores.lnk" "$INSTDIR\CorredoresGrafico.jar"
  	
 	#añadimos la información del registro
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\GestionCarreras" \
@@ -55,12 +57,13 @@ Section "uninstall"
 	RmDir /r "$INSTDIR\help"
 	RmDir /r "$INSTDIR\jasper"
 	delete "$INSTDIR\controladora.dat"
-	delete "$INSTDIR\PruebasGraficas.jar"
+	delete "$INSTDIR\CorredoresGrafico.jar"
 	RmDir /r "$INSTDIR\lib"
 	
 	#borramos los enlaces directos
 	delete "$SMPROGRAMS\GestionCarreras\Gestion.lnk"
 	delete "$SMPROGRAMS\GestionCarreras\Desinstalar.lnk"
+	delete "$DESKTOP\GestionCorredores.lnk"
 	RmDir "$SMPROGRAMS\GestionCarreras"
 	
 	#borramos la carpeta de instalación
