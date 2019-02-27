@@ -29,7 +29,7 @@ public class ControladoraReportes {
         JRDataSource dataSource = new JRBeanCollectionDataSource(carrerasSinFinalizadar);
         Map parametros = new HashMap();
         JasperPrint print = JasperFillManager.fillReport
-        ("jasper"+File.separator+"reportCarrerasSinFinalizar.jasper", parametros);
+        ("jasper"+File.separator+"reportCarrerasSinFinalizar.jasper", parametros,dataSource);
         JasperExportManager.exportReportToPdfFile(print,rutaDestino.getAbsolutePath());
         
     }
