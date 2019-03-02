@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeSobreCarrera_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="60e21b07-901b-4a32-97e2-bac39f97e29a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[direccion]]></fieldDescription>
+	</field>
+	<field name="fechaNac" class="java.util.Date">
+		<fieldDescription><![CDATA[fechaNac]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="telef" class="java.lang.Integer">
+		<fieldDescription><![CDATA[telef]]></fieldDescription>
+	</field>
+	<variable name="nombre_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{nombre}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="13" width="100" height="20" uuid="29b19316-bd55-4717-a586-037cf92233c2"/>
+				<textFieldExpression><![CDATA["carrera "+ $F{field}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="43" y="2" width="100" height="20" uuid="dbca0da3-a7b6-4756-9f8d-de093f0e8505"/>
+				<text><![CDATA[direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="2" width="116" height="20" uuid="1b383e5d-1eb5-4380-a755-b14510323a53"/>
+				<text><![CDATA[fecha de nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="2" width="100" height="20" uuid="362df8b4-2aeb-4f75-9eed-8378336aa873"/>
+				<text><![CDATA[telef]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<textField>
+				<reportElement x="43" y="17" width="100" height="20" uuid="509e7a6c-6b89-4c19-a243-f0c7af3767bf"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="176" y="16" width="100" height="20" uuid="7bae60db-94af-4ce8-b19a-fae6c3a24790"/>
+				<textFieldExpression><![CDATA[$F{fechaNac}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="20" width="100" height="20" uuid="99304a4d-e92a-42f9-b2ad-6471cc6dc4a9"/>
+				<textFieldExpression><![CDATA[$F{telef}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

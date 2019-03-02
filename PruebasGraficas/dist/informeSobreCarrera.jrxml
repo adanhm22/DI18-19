@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeSobreCarrera" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbc05a01-cb82-4fd2-b301-781747706756">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="174"/>
+	<property name="ireport.y" value="104"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/adan/Documentos/DI18-19/PruebasGraficas/dist/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="finalizada" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="corredor" class="Modelo.Corredor">
+		<fieldDescription><![CDATA[corredor]]></fieldDescription>
+	</field>
+	<field name="dorsal" class="java.lang.String">
+		<fieldDescription><![CDATA[dorsal]]></fieldDescription>
+	</field>
+	<field name="horas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[horas]]></fieldDescription>
+	</field>
+	<field name="minutos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[minutos]]></fieldDescription>
+	</field>
+	<field name="segundos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[segundos]]></fieldDescription>
+	</field>
+	<variable name="corredor_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{corredor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="39" y="0" width="377" height="20" uuid="466c229e-543a-44fc-aef6-efb4df42ae01"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{finalizada}?
+"Carrera finalizada "+$F{corredor}.getNombre() :
+    "Carrera sin finalizar "+$F{corredor}.getNombre()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement x="12" y="1" width="100" height="20" uuid="04a651a3-fffd-400a-be13-9a731b1b9b3a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[dorsal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="21" width="100" height="20" uuid="43ab5235-4003-46e8-a856-367e80848795"/>
+				<text><![CDATA[Corredor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="207" splitType="Stretch">
+			<textField>
+				<reportElement x="12" y="11" width="100" height="20" uuid="ada8e2ed-153f-4876-8a3f-806795d11374"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dorsal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="31" width="100" height="20" uuid="578d078e-3e52-4434-afc9-f0739bf50c3f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DNI: "+$F{corredor}.getDNI()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="71" width="197" height="20" uuid="a8edf15a-3f20-4a17-befc-391261ff9373"/>
+				<textFieldExpression><![CDATA["Nombre: "+$F{corredor}.getNombre()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="99" width="197" height="20" uuid="71a4243e-d7f5-4796-b423-76c87f585082"/>
+				<textFieldExpression><![CDATA["Dirección: "+$F{corredor}.getDireccion()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="128" width="197" height="20" uuid="f71b0022-292e-4f6d-a937-977ed25ee4be"/>
+				<textFieldExpression><![CDATA["Nacimiento: "+$F{corredor}.getFechaNac()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="165" width="197" height="20" uuid="c86c50c7-4e0e-4357-a1d3-757d09b3c07d"/>
+				<textFieldExpression><![CDATA["Telefono: "+$F{corredor}.getTelef()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="247" y="0" width="155" height="20" uuid="ecc5506e-3d88-4c05-959e-6964a943a344"/>
+				<text><![CDATA[numero total de participantes:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="0" width="100" height="20" uuid="13a9cf63-2833-4906-ba73-2604640efbc0"/>
+				<textFieldExpression><![CDATA[$V{corredor_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

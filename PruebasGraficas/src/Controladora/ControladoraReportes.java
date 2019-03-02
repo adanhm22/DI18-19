@@ -5,7 +5,10 @@
  */
 package Controladora;
 
+import Modelo.Carrera;
+import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import Modelo.Dorsal;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +35,16 @@ public class ControladoraReportes {
         ("jasper"+File.separator+"reportCarrerasSinFinalizar.jasper", parametros,dataSource);
         JasperExportManager.exportReportToPdfFile(print,rutaDestino.getAbsolutePath());
         
+    }
+
+    public void reportCarrera(File rutaDestino, Carrera carrera) throws JRException {
+        Map parametros = new HashMap();
+        List<Dorsal> corredores = carrera.getCorredores();
+        JRDataSource dataSource = new JRBeanCollectionDataSource(corredores);
+        parametros.put("finalizada", carrera instanceof CarreraFinalizada);
+        JasperPrint print = JasperFillManager.fillReport
+        ("jasper"+File.separator+"informeSobreCarrera.jasper", parametros,dataSource);
+        JasperExportManager.exportReportToPdfFile(print,rutaDestino.getAbsolutePath());
     }
     
 }

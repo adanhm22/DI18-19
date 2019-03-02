@@ -7,6 +7,8 @@ package Interfaz;
 
 import Controladora.Controladora;
 import Controladora.ControladoraReportes;
+import Controladora.DataSource;
+import Modelo.Carrera;
 import Modelo.Configuracion;
 import java.awt.Desktop;
 import java.awt.Image;
@@ -18,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
@@ -42,7 +45,6 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form PantallaPrincipal
      */
-
     public FramePantallaPrincipal() {
         initComponents();
         con = Controladora.getInstance();
@@ -55,39 +57,46 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
             ji.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   cambiarLookFeel(info.getName());
+                    cambiarLookFeel(info.getName());
                 }
             });
         }
         setLocationRelativeTo(null);
         addWindowListener(new WindowListener() {
             @Override
-            public void windowOpened(WindowEvent e) {}
+            public void windowOpened(WindowEvent e) {
+            }
 
             @Override
             public void windowClosing(WindowEvent e) {
                 try {
-                    Controladora.grabarControladoraObjeto();   
+                    Controladora.grabarControladoraObjeto();
                 } catch (IOException ex) {
                     Exceptions.printStackTrace(ex);
                 }
             }
-            @Override
-            public void windowClosed(WindowEvent e) {}
 
             @Override
-            public void windowIconified(WindowEvent e) {}
+            public void windowClosed(WindowEvent e) {
+            }
 
             @Override
-            public void windowDeiconified(WindowEvent e) {}
+            public void windowIconified(WindowEvent e) {
+            }
 
             @Override
-            public void windowActivated(WindowEvent e) {}
+            public void windowDeiconified(WindowEvent e) {
+            }
 
             @Override
-            public void windowDeactivated(WindowEvent e) {}
-        } );
-        
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+
         //poner imagen
         imagen.setIcon(new ImageIcon("src/images/portada.png"));
         imagen.setText("");
@@ -98,10 +107,10 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
             Exceptions.printStackTrace(ex);
         }
     }
-    
-    private void cambiarLookFeel (String name ){
+
+    private void cambiarLookFeel(String name) {
         for (UIManager.LookAndFeelInfo installedLookAndFeel : UIManager.getInstalledLookAndFeels()) {
-            if(name.equals(installedLookAndFeel.getName())){
+            if (name.equals(installedLookAndFeel.getName())) {
                 try {
                     Configuracion conf = Controladora.getInstance().getConf();
                     conf.setLookAndFeel(installedLookAndFeel);
@@ -109,12 +118,11 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     Exceptions.printStackTrace(ex);
                 }
-                
+
             }
         }
     }
 
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -196,6 +204,11 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         jMenuInformes.add(itemCarrerasNoFinalizadas);
 
         itemInformeCarrera.setText("informe sobre carrera");
+        itemInformeCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemInformeCarreraActionPerformed(evt);
+            }
+        });
         jMenuInformes.add(itemInformeCarrera);
 
         itemClasificacionCarrera.setText("clasificacion de una carrera");
@@ -264,7 +277,7 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
 
     private void configuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configuracionActionPerformed
         // TODO add your handling code here:
-         new DialogConfiguracion(this, true).setVisible(true);
+        new DialogConfiguracion(this, true).setVisible(true);
     }//GEN-LAST:event_configuracionActionPerformed
 
     private void itemCarrerasNoFinalizadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCarrerasNoFinalizadasActionPerformed
@@ -274,15 +287,41 @@ public class FramePantallaPrincipal extends javax.swing.JFrame {
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.showSaveDialog(this);
         File ficheroSeleccionado = chooser.getSelectedFile();
-        if(ficheroSeleccionado!=null)
+        if (ficheroSeleccionado != null) {
             try {
                 cr.reportCarrerasSinFinalizar(ficheroSeleccionado);
                 Desktop.getDesktop().open(ficheroSeleccionado);
-        } catch (IOException|JRException ex) {
-            JOptionPane.showMessageDialog(this, "a ocurrido un error: \n"
-                    +ex.getMessage(),"error",JOptionPane.ERROR_MESSAGE);
+            } catch (IOException | JRException ex) {
+                JOptionPane.showMessageDialog(this, "a ocurrido un error: \n"
+                        + ex.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_itemCarrerasNoFinalizadasActionPerformed
+
+    private void itemInformeCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemInformeCarreraActionPerformed
+        // TODO add your handling code here:
+        ControladoraReportes cr = new ControladoraReportes();
+        JFileChooser chooser = new JFileChooser();
+        List<Carrera> carreras = DataSource.getCarreras();
+        Object carrera = JOptionPane.showInputDialog(this, "selecciona carrera", "seleccionar carrera",
+                 JOptionPane.QUESTION_MESSAGE, null, carreras.toArray(), carreras.get(0));
+        if (carrera != null) {
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            chooser.showSaveDialog(this);
+            File ficheroSeleccionado = chooser.getSelectedFile();
+            if (ficheroSeleccionado != null) {
+                try {
+                    cr.reportCarrera(ficheroSeleccionado, (Carrera) carrera);
+                    Desktop.getDesktop().open(ficheroSeleccionado);
+                } catch (IOException | JRException ex) {
+                    JOptionPane.showMessageDialog(this, "a ocurrido un error: \n"
+                            + ex.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+
+    }//GEN-LAST:event_itemInformeCarreraActionPerformed
 
     /**
      * @param args the command line arguments
