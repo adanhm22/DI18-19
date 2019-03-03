@@ -56,11 +56,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="clasificacion de una carrera"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemClasificacionCarreraActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="itemInformeCorredor">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="informe sobre corredor"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemInformeCorredorActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>

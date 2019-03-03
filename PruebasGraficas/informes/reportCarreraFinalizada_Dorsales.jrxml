@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportCarreraFinalizada_Dorsales" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="252938df-952c-47b9-9d48-5cea0313ab07">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="corredor" class="Modelo.Corredor">
+		<fieldDescription><![CDATA[corredor]]></fieldDescription>
+	</field>
+	<field name="dorsal" class="java.lang.String">
+		<fieldDescription><![CDATA[dorsal]]></fieldDescription>
+	</field>
+	<field name="horas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[horas]]></fieldDescription>
+	</field>
+	<field name="minutos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[minutos]]></fieldDescription>
+	</field>
+	<field name="segundos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[segundos]]></fieldDescription>
+	</field>
+	<variable name="corredor_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{corredor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="62" y="0" width="130" height="20" uuid="bd806d4c-dabc-4acf-a081-65fb2af33e19"/>
+				<text><![CDATA[dorsal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="0" width="114" height="20" uuid="968ba3de-6c8d-4e73-9355-9346da1a95fd"/>
+				<text><![CDATA[Tiempo de llegada]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="46" splitType="Stretch">
+			<textField>
+				<reportElement x="62" y="13" width="130" height="20" uuid="5c0ff65a-b025-4068-97a8-548c62fec2d0"/>
+				<textFieldExpression><![CDATA[$F{dorsal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="13" width="114" height="20" uuid="af9975ea-490f-47f1-a288-0c6d01d84b01"/>
+				<textFieldExpression><![CDATA[$F{horas}+":"+$F{segundos}+":"+$F{segundos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

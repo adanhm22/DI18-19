@@ -8,8 +8,10 @@ package Controladora;
 import Modelo.Carrera;
 import Modelo.CarreraFinalizada;
 import Modelo.CarreraSinFinalizar;
+import Modelo.Corredor;
 import Modelo.Dorsal;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,57 @@ public class ControladoraReportes {
         JasperPrint print = JasperFillManager.fillReport
         ("jasper"+File.separator+"informeSobreCarrera.jasper", parametros,dataSource);
         JasperExportManager.exportReportToPdfFile(print,rutaDestino.getAbsolutePath());
+    }
+
+    public void reportCarreraFinalizada(File ficheroSeleccionado, CarreraFinalizada carreraSeleccionada) throws JRException {
+       Map parametros = new HashMap();
+       parametros.put("CarreraFinalizada", carreraSeleccionada);
+        ArrayList corredores = new ArrayList();
+        corredores.add(carreraSeleccionada);
+       JRDataSource dataSource = new JRBeanCollectionDataSource(corredores);
+       JasperPrint print = JasperFillManager.fillReport
+        ("jasper"+File.separator+"reportCarreraFinalizada.jasper", parametros,dataSource);
+        JasperExportManager.exportReportToPdfFile(print,ficheroSeleccionado.getAbsolutePath());
+    }
+
+    public void reportCorredor(File ficheroSeleccionado, Corredor corredor) throws JRException {
+       Map parametros = new HashMap();
+       parametros.put("corredor", corredor);
+        List<Carrera> carrerasCorredor = this.getCarrerasCorredor(corredor);
+        JRDataSource dataSource = new JRBeanCollectionDataSource(carrerasCorredor);
+        JasperPrint print = JasperFillManager.fillReport
+        ("jasper"+File.separator+"reportCorredor.jasper", parametros,dataSource);
+        JasperExportManager.exportReportToPdfFile(print,ficheroSeleccionado.getAbsolutePath());
+        
+    }
+    
+    private List<Carrera> getCarrerasCorredor(Corredor corredor){
+        ArrayList<Carrera> carreras = new ArrayList<Carrera>();
+        GestionCarreras gestionCarreras = Controladora.getInstance().getGestionCarreras();
+        List<CarreraFinalizada> carrerasFinalizadas = gestionCarreras.getCarrerasFinalizadas();
+        
+        for (CarreraFinalizada carreraFinalizada : carrerasFinalizadas) {
+            List<Dorsal> dorsales = carreraFinalizada.getCorredores();
+            for (Dorsal dorsal : dorsales) {
+                if(dorsal.getCorredor().equals(corredor)&&!carreras.contains(carreraFinalizada)){
+                    carreras.add(carreraFinalizada);
+                }
+            }
+            
+        }
+        
+        List<CarreraSinFinalizar> carrerasSinFinalizar = gestionCarreras.getCarrerasSinFinalizar();
+        
+        for (CarreraSinFinalizar carreraSinFinalizada : carrerasSinFinalizar) {
+            List<Dorsal> dorsales = carreraSinFinalizada.getCorredores();
+            for (Dorsal dorsal : dorsales) {
+                if(dorsal.getCorredor().equals(corredor)&&!carreras.contains(carreraSinFinalizada)){
+                    carreras.add(carreraSinFinalizada);
+                }
+            }
+            
+        }
+        return carreras;
     }
     
 }

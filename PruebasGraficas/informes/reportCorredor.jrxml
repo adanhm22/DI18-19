@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportCorredor" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c2de9ad-ee44-42e8-aebe-78b3575f2724">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="corredor" class="Modelo.Corredor">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/adan/Documentos/DI18-19/PruebasGraficas/informes/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="11" width="385" height="45" uuid="5a7eeed0-b74f-4769-ab6d-674b2f6421df"/>
+				<textFieldExpression><![CDATA["Corredor "+$P{corredor}.getNombre()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="c0d88a85-f93b-46c5-97b4-f764e4041295"/>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="0" width="100" height="20" uuid="0ddbc367-db1e-4549-8d25-41b7da8815f9"/>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="2" width="100" height="20" uuid="e943d916-df70-4e71-b927-1b18cc3f2294"/>
+				<text><![CDATA[direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="2" width="100" height="20" uuid="01ac0300-328c-4cbd-a606-b2e0acce029f"/>
+				<text><![CDATA[telef]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="2" width="100" height="20" uuid="ef1c186a-42bf-4a9f-9fab-60a2e45946a6"/>
+				<text><![CDATA[fechaNac]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="169" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="11" width="100" height="20" uuid="5c6d0f10-a543-40b4-baa0-ac2edc9b9ba8"/>
+				<textFieldExpression><![CDATA[$P{corredor}.getDNI()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="11" width="100" height="20" uuid="8e3ab23b-a0b3-45bf-9648-9c0c87f44152"/>
+				<textFieldExpression><![CDATA[$P{corredor}.getNombre()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="233" y="11" width="100" height="20" uuid="9cf5c189-5ff8-4c9f-a9f1-aa162f392b8d"/>
+				<textFieldExpression><![CDATA[$P{corredor}.getDireccion()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="11" width="100" height="20" uuid="601cea61-69f9-4534-bbee-424c5eb8829d"/>
+				<textFieldExpression><![CDATA[$P{corredor}.getTelef()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="11" width="100" height="20" uuid="54f86f3e-c996-4656-b597-ed4acb3ddda5"/>
+				<textFieldExpression><![CDATA[$P{corredor}.getFechaNac()]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="70" width="555" height="99" uuid="59d45e60-5fbb-435a-bb7a-994e6290cd56"/>
+				<dataSourceExpression><![CDATA[$P{REPORT_DATA_SOURCE}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportCorredor_carreras.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="50" width="100" height="20" uuid="5dffd02f-863b-4965-99ff-79c210884403"/>
+				<text><![CDATA[Carreras]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
